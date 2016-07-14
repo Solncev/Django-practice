@@ -30,7 +30,47 @@ class Department(models.Model):
         blank=True,
         null=True,
     )
+<<<<<<< HEAD
+=======
+    type = models.ForeignKey(
+        'Type',
+        related_name='departments'
+    )
+    KPI = models.ManyToManyField(
+        'KPI',
+        through='AssignedKPI',
+        through_fields=('department', 'kpi')
+    )
+>>>>>>> 39f5a913329fc1904cd8450c52e8e358d86c0b65
 
     def __str__(self):
         return self.name
 
+<<<<<<< HEAD
+=======
+
+class KPI(models.Model):
+    name = models.CharField(max_length=50)
+
+    def __str__(self):
+            return self.name
+
+
+class Type(models.Model):
+    name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.name
+
+
+class AssignedKPI(models.Model):
+    kpi = models.ForeignKey(KPI)
+    department = models.ForeignKey(Department)
+    amount = models.IntegerField
+    complete = models.IntegerField(
+        blank=True,
+        null=True
+    )
+
+    # There must be a Cheif
+>>>>>>> 39f5a913329fc1904cd8450c52e8e358d86c0b65
