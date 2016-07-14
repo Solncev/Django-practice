@@ -30,24 +30,26 @@ class Department(models.Model):
         blank=True,
         null=True,
     )
-<<<<<<< HEAD
-=======
+# <<<<<<< HEAD
+# =======
     type = models.ForeignKey(
         'Type',
-        related_name='departments'
+        related_name='departments',
+        null=True, #Sagit
     )
     KPI = models.ManyToManyField(
         'KPI',
         through='AssignedKPI',
         through_fields=('department', 'kpi')
     )
->>>>>>> 39f5a913329fc1904cd8450c52e8e358d86c0b65
+# >>>>>>> 39f5a913329fc1904cd8450c52e8e358d86c0b65
 
     def __str__(self):
         return self.name
 
-<<<<<<< HEAD
-=======
+# <<<<<<< HEAD
+# =======
+
 
 class KPI(models.Model):
     name = models.CharField(max_length=50)
@@ -73,4 +75,4 @@ class AssignedKPI(models.Model):
     )
 
     # There must be a Cheif
->>>>>>> 39f5a913329fc1904cd8450c52e8e358d86c0b65
+# >>>>>>> 39f5a913329fc1904cd8450c52e8e358d86c0b65
