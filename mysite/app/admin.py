@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import UserProfile, Department, Type, AssignedKPI, KPI
+from .models import UserProfile, Department, Type, AssignedKPI, KPI, Position
 
 admin.site.register(UserProfile)
 admin.site.register(Department)
@@ -9,5 +9,6 @@ admin.site.register(Department)
 admin.site.register(Type)
 admin.site.register(AssignedKPI)
 admin.site.register(KPI)
+admin.site.register(Position)
 # >>>>>>> 39f5a913329fc1904cd8450c52e8e358d86c0b65
 # Register your models here.
