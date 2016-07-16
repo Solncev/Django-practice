@@ -97,7 +97,7 @@ class Position(models.Model):
 class Comments(models.Model):
     sender = models.ForeignKey('UserProfile', related_name='senders')
     text = models.CharField(default='', max_length=500, blank=True)
-    kpi = models.ForeignKey('AssignedKPI', related_name='comments')
+    kpi = models.ForeignKey('AssignedKPI')
 
     def __str__(self):
         return self.sender.user.username
