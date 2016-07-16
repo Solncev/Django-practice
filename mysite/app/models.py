@@ -72,11 +72,14 @@ class Type(models.Model):
 class AssignedKPI(models.Model):
     kpi = models.ForeignKey('KPI')
     department = models.ForeignKey('Department')
-    amount = models.IntegerField(null=True)
+    amount = models.IntegerField(default=0)
     complete = models.IntegerField(
         blank=True,
         null=True
     )
+
+    def __str__(self):
+        return self.kpi.name
 # >>>>>>> 39f5a913329fc1904cd8450c52e8e358d86c0b65
 
 
@@ -89,3 +92,12 @@ class Position(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Comments(models.Model):
+    sender = models.ForeignKey('UserProfile', related_name='senders')
+    text = models.CharField(default='', max_length=500, blank=True)
+    kpi = models.ForeignKey('AssignedKPI', related_name='comments')
+
+    def __str__(self):
+        return self.sender.user.username
