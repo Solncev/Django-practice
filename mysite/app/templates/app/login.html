@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Вход</title>
+    {% load staticfiles %}
+	<link rel="stylesheet" href="{% static 'app/style.css' %}">
+    <!-- Bootstrap -->
+    <link href="../../static/app/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+
+    <script type="text/javascript" src="{% static 'app/bootstrap/js/jquery-3.1.0.min.js' %}"></script>
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="../../static/app/bootstrap/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="../../static/app/font-awesome/css/font-awesome.min.css">
+</head>
+<body>
+<div class="header">
+	<h2 class="name"><i class="fa fa-university" aria-hidden="true"></i>&nbsp inUNI</h2>
+    <div class="border"><h4 class="about">О проекте</h4></div>
+</div>
+{% block login %}
+<div class="wrapper">
+    <form action="/auth/login/" method="post">
+        {% csrf_token %}
+        <h3 align="center">Вход</h3>
+        <label for="username" class="label1">Логин</label>
+        <input type="text" class="textfield" name="username" id="username">
+        <label for="password" class="label1">Пароль</label>
+        <input type="password" class="textfield" name="password" id="password">
+        {% if login_error %}
+            <label class="error">{{ login_error }}</label>
+        {% endif %}
+        <input type="submit" class="login-button" value="Войти">
+    </form>
+</div>
+{% endblock %}
+</body>
+</html>
