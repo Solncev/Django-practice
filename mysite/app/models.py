@@ -1,6 +1,5 @@
 from __future__ import unicode_literals
 
-from datetime import date
 
 from django.contrib.auth.models import User
 from django.db import models
@@ -10,6 +9,8 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User)
     third_name = models.CharField(max_length=30)
     birth_date = models.DateField('birth date')
+    position = models.ForeignKey('Position', related_name='users', blank=True, null=True)
+    department = models.OneToOneField('Department', related_name='users', blank=True, null=True)
 
     def __str__(self):
         return self.user.username
@@ -41,6 +42,10 @@ class Department(models.Model):
         through='AssignedKPI',
         through_fields=('department', 'kpi')
     )
+    budget = models.IntegerField(
+        blank=True,
+        null=True
+    )
 # >>>>>>> 39f5a913329fc1904cd8450c52e8e358d86c0b65
 
     def __str__(self):
@@ -48,6 +53,7 @@ class Department(models.Model):
 
 # <<<<<<< HEAD
 # =======
+
 
 class KPI(models.Model):
     name = models.CharField(max_length=50)
@@ -64,13 +70,34 @@ class Type(models.Model):
 
 
 class AssignedKPI(models.Model):
-    kpi = models.ForeignKey(KPI)
-    department = models.ForeignKey(Department)
-    amount = models.IntegerField
+    kpi = models.ForeignKey('KPI')
+    department = models.ForeignKey('Department')
+    amount = models.IntegerField(default=0)
     complete = models.IntegerField(
         blank=True,
         null=True
     )
 
-    # There must be a Cheif
+    def __str__(self):
+        return self.kpi.name
 # >>>>>>> 39f5a913329fc1904cd8450c52e8e358d86c0b65
+
+
+class Position(models.Model):
+    name = models.CharField(max_length=50)
+    accept_reject = models.BooleanField(default=False)
+    spread_KPI = models.BooleanField(default=False)
+    report = models.BooleanField(default=False)
+    spread_budget = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.name
+
+
+class Comments(models.Model):
+    sender = models.ForeignKey('UserProfile', related_name='senders')
+    text = models.CharField(default='', max_length=500, blank=True)
+    kpi = models.ForeignKey('AssignedKPI')
+
+    def __str__(self):
+        return self.sender.user.username
