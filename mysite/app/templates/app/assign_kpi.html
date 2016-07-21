@@ -18,21 +18,17 @@
 	<h2 class="name"><i class="fa fa-university" aria-hidden="true"></i>&nbsp inUNI</h2>
     <div class="border"><h4 class="about">О проекте</h4></div>
 </div>
-{% block login %}
-<div class="wrapper">
-    <form action="/app/login/" method="post">
-        {% csrf_token %}
-        <h3 align="center">Вход</h3>
-        <label for="username" class="label1">Логин</label>
-        <input type="text" class="textfield" name="username" id="username">
-        <label for="password" class="label1">Пароль</label>
-        <input type="password" class="textfield" name="password" id="password">
-        {% if login_error %}
-            <label class="error">{{ login_error }}</label>
-        {% endif %}
-        <input type="submit" class="login-button" value="Войти">
-    </form>
-</div>
-{% endblock %}
+<form action="/app/assign_kpi/" method="post">
+    {% csrf_token %}
+    {{ creation_form }}
+    <input type="submit" class="login-button" value="Создать KPI">
+    {{ form_error }}
+</form>
+<form action="/app/assign_kpi/" method="post">
+    {% csrf_token %}
+    {{ form  }}
+    <input type="submit" class="login-button" value="Назначить KPI">
+    {{ form_error }}
+</form>
 </body>
 </html>

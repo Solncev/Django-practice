@@ -20,5 +20,5 @@ from app import views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^auth/', include('app.urls')),
+    url(r'^app/', include('app.urls')),
 ]
