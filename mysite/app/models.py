@@ -25,8 +25,6 @@ class Department(models.Model):
         blank=True,
         null=True,
     )
-# <<<<<<< HEAD
-# =======
     DEPARTMENT_TYPE_CHOICES = (
         ('0', "Направление"),
         ('1', "Кафедра"),
@@ -40,14 +38,8 @@ class Department(models.Model):
         through_fields=('department', 'kpi')
     )
 
-# >>>>>>> 39f5a913329fc1904cd8450c52e8e358d86c0b65
-
     def __str__(self):
         return self.name
-
-# <<<<<<< HEAD
-# =======
-
 
 class KPI(models.Model):
     name = models.CharField(max_length=50)
@@ -72,7 +64,6 @@ class AssignedKPI(models.Model):
 
     def __str__(self):
         return self.kpi.name
-# >>>>>>> 39f5a913329fc1904cd8450c52e8e358d86c0b65
 
 
 class Position(models.Model):
