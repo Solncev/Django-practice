@@ -14,13 +14,14 @@
     <link rel="stylesheet" href="../../static/app/font-awesome/css/font-awesome.min.css">
 </head>
 <body>
-{% if username %}
+{% if profile %}
 <div class="header">
 	<h2 class="name"><i class="fa fa-university" aria-hidden="true"></i>&nbsp inUNI</h2>
     <div class="border"><h4 class="about">О проекте</h4></div>
 </div>
-    Hello, {{ username }}!
-    <li><a href="/auth/logout/">Выйти</a></li>
+    Hello, {{ profile.user.username }}!
+    <li><a href="/app/logout/">Выйти</a></li>
+    <li><a href="/app/assign_kpi/">Назначить KPI</a></li>
 {% else %}
 {% endif %}
 </body>
