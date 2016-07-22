@@ -10,7 +10,9 @@ class UserProfile(models.Model):
     third_name = models.CharField(max_length=30)
     birth_date = models.DateField('birth date')
     position = models.ForeignKey('Position', related_name='users', blank=True, null=True)
-    department = models.OneToOneField('Department', related_name='users', blank=True, null=True)
+
+    department = models.ForeignKey('Department', related_name='users', blank=True, null=True)
+
 
     def __str__(self):
         return self.user.username
@@ -42,7 +44,7 @@ class Department(models.Model):
         return self.name
 
 class KPI(models.Model):
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=50, unique=True)
 
     def __str__(self):
             return self.name

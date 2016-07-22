@@ -19,10 +19,18 @@
 	<h2 class="name"><i class="fa fa-university" aria-hidden="true"></i>&nbsp inUNI</h2>
     <div class="border"><h4 class="about">О проекте</h4></div>
 </div>
+    <div>
     Hello, {{ profile.user.username }}!
+        <li><a href="/app/personal_information/">Личная информация</a></li>
+
+    {% for x in set %}<p> {{ x.name }} Руководитель: {{ x.head.first_name}} {{ x.head.last_name }} </p><li><a href="/app/assign_kpi/{{ x.id }}/">Назначить KPI</a></li>{% endfor %}
     <li><a href="/app/logout/">Выйти</a></li>
-    <li><a href="/app/assign_kpi/">Назначить KPI</a></li>
-    <li><a href="/app/personal_information/">Личная информация</a></li>
+    </div>
+    <div>
+    Назначенные мне задания:
+    {% for y in profile_set %}<li>{{ y.kpi.name }} {{ y.comment }} {{ y.amount }} </li>{% endfor %}
+    {% for x in percent %}<li>{{ x }} %</li>{% endfor %}
+    </div>
 {% else %}
 {% endif %}
 </body>

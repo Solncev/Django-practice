@@ -10,6 +10,7 @@ class AssignKPIform(ModelForm):
         widgets = {
             'assigner': HiddenInput,
             'datetime': HiddenInput,
+            'department': HiddenInput,
         }
 
 
