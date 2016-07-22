@@ -4,7 +4,8 @@ from app import views
 
 urlpatterns = [
     url(r'^login/', views.login, name='login'),
-    url(r'^profile/', views.profile, name='profile'),
+    url(r'^main/', views.main, name='main'),
     url(r'^logout/', views.logout, name='logout'),
-    url(r'^assign_kpi/', views.assign_kpi, name='assign_kpi')
+    # GET запрос через url
+    url(r'^assign_kpi/(?P<id_department>\d+)/$', views.assign_kpi, name='assign_kpi')
 ]

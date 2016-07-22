@@ -18,17 +18,21 @@
 	<h2 class="name"><i class="fa fa-university" aria-hidden="true"></i>&nbsp inUNI</h2>
     <div class="border"><h4 class="about">О проекте</h4></div>
 </div>
-<form action="/app/assign_kpi/" method="post">
+<form action="/app/assign_kpi/{{ id_department }}/" method="post">
     {% csrf_token %}
     {{ creation_form }}
     <input type="submit" class="login-button" value="Создать KPI">
     {{ form_error }}
 </form>
-<form action="/app/assign_kpi/" method="post">
+{{ department.name }} Руководитель {{ department.head.first_name }} {{ department.head.last_name }} {{ profile.third_name }}
+<form action="/app/assign_kpi/{{ id_department }}/" method="post">
     {% csrf_token %}
     {{ form  }}
     <input type="submit" class="login-button" value="Назначить KPI">
     {{ form_error }}
 </form>
+    Назначенные задания:
+    {% for y in department_set %}<li>{{ y.kpi.name }} {{ y.comment }} {{ y.amount }} </li>{% endfor %}
+    {% for x in percent %}<li>{{ x }} %</li>{% endfor %}
 </body>
 </html>
