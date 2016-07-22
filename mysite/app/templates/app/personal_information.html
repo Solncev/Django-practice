@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Личная информация</title>
+    {% load staticfiles %}
+    <!-- Bootstrap -->
+    <link href="../../static/app/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link rel="stylesheet" href="{% static 'app/style.css' %}">
+    <script type="text/javascript" src="{% static 'app/bootstrap/js/jquery-3.1.0.min.js' %}"></script>
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="../../static/app/bootstrap/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="../../static/app/font-awesome/css/font-awesome.min.css">
+</head>
+<body>
+{% if personal_information %}
+<nav class="nv navbar navbar-default navbar-fixed-top">
+    <div class="container">
+        <div class="dropdown">
+            <button class="btn btn-default dropdown-toggle btn-blue" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"> <i class="fa fa-chevron-down fa-2x" aria-hidden="true"></i> </button>
+        <ul class="dropdown-menu moved-menu" aria-labelledby="dropdownMenu1">
+            <li><a href="/app/personal_information/">Личная информация</a></li>
+            <li><a href="#">Настройки</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="/app/logout/">Выход</a></li>
+        </ul>
+        </div>
+        <h3 class="name1"><i class="fa fa-university" aria-hidden="true"></i> {{ personal_information.user.first_name }} {{ personal_information.user.last_name }} &nbsp </h3>
+    </div>
+</nav>
+
+<div class="nv-back divide-nav">
+  <div class="back-link container">
+    <h4 class="divide-text"><a href="/app/main/"><i class="fa fa-chevron-left" aria-hidden="true"></i>  Назад</a></h4>
+  </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-10 col-xs-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
+        <h4 class="info-label">Username: {{ personal_information.user.username }}</h4>
+        <h4 class="info-label">Имя: {{ personal_information.user.first_name }}</h4>
+        <h4 class="info-label">Фамилия:{{ personal_information.user.last_name }}</h4>
+        <h4 class="info-label">Отчество:{{ personal_information.third_name }}</h4>
+        <h4 class="info-label">Направление: {{ personal_information.department }}</h4>
+        <h4 class="info-label">Должность: {{ personal_information.position }}</h4>
+    </div>
+</div>
+
+{% else %}
+{% endif %}
+</body>
+</html>

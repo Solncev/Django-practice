@@ -1,0 +1,311 @@
+@media (max-width: 319px) {
+	.wrapper {
+		border: 1px solid black;
+	}
+
+	.tasks {
+		padding-top: 0;
+	}
+
+	.myTasks {
+		border-radius: 0px;
+	}
+
+	.giveTasks {
+		border-radius: 0px;
+	}
+
+
+	.name1 {
+		font-size: 6vw;
+	}
+}
+
+@media (min-width: 320px) and (max-width: 767px) {
+	.wrapper {
+		border: 1px solid black;
+	}
+
+	.tasks {
+		padding-top: 0;
+	}
+
+	.myTasks {
+		border-radius: 0px;
+	}
+
+	.giveTasks {
+		margin-top: 20px;
+		border-radius: 0px;
+	}
+
+	.name1 {
+		font-size: 22px;
+	}
+
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+	.wrapper {
+		margin: 100px 15% 100px;
+		border-radius: 3px;
+	}
+
+
+	.tasks {
+		padding-top: 40px;
+	}
+
+	.myTasks {
+		border-radius: 3px;
+	}
+
+	.giveTasks {
+		margin-top: 40px;
+		border-radius: 3px;
+	}
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+	.wrapper {
+		margin: 100px 23% 100px;
+		border-radius: 3px;
+	}
+
+	.tasks {
+		padding-top: 50px;
+	}
+
+	.myTasks {
+		border-radius: 3px;
+	}
+
+	.giveTasks {
+		border-radius: 3px;
+	}
+}
+
+@media (min-width: 1200px) {
+	.wrapper {
+		margin: 120px 30% 120px;
+		border-radius: 3px;
+	}
+
+
+	.tasks {
+		padding-top: 70px;
+	}
+
+	.myTasks {
+		border-radius: 3px;
+	}
+
+	.giveTasks {
+		border-radius: 3px;
+	}
+}
+
+@media (min-width: 1500px) {
+	.wrapper {
+		margin: 130px 37% 130px;
+		border-radius: 3px;
+	}
+
+
+	.tasks {
+		padding-top: 80px;
+	}
+
+	.myTasks {
+		border-radius: 3px;
+	}
+
+	.giveTasks {
+		border-radius: 3px;
+	}
+}
+
+/*.header {*/
+	/*width: 100%;*/
+	/*background-color: #191970;*/
+	/*height: 60px;*/
+
+/*}*/
+
+.name {
+	display: inline;
+	padding-top: 15px;
+	padding-left: 20px;
+	color: white;
+	margin-top: 0;
+	float: left;
+}
+
+.border {
+	display: inline;
+	border-left: 1px solid white;
+	border-right: 1px solid white;
+	width: 135px;
+	float: right;
+	height: 60px;
+}
+
+.border:hover {
+	background-color: #1300b6;
+}
+
+.about {
+	float: right;
+	color: green;
+	display: inline;
+	padding-top: 19px;
+	padding-right: 20px;
+	color: white;
+	margin-top: 0
+}
+
+.wrapper {
+	/*border-radius: 3px;*/
+	border: 1px solid black
+}
+
+.label1 {
+	padding-top: 8px;
+	margin: 15px 3% 3px;
+}
+
+.errorlabel {
+	padding-top: 5px;
+	margin: 0 3%;
+	color: #ff0002;
+}
+
+.textfield {
+	display: block;
+	font-size: 16px;
+    color: #6c6c6c;
+    width: 94%;
+    height: 40px;
+    border: 1px solid #bebebe;
+    border-radius: 3px;
+    padding-left: 10px;
+    margin-left: 3%;
+
+}
+
+.login-button {
+	margin: 30px 3% 40px;
+	display: block;
+	font-size: 18px;
+    background: linear-gradient(to top, #0000aa, #2A2AC9); 
+    color: white;
+    width: 94%;
+    height: 40px;
+    border: 1px solid #000066;
+    border-radius: 3px;
+    padding-left: 10px;
+    margin-left: 3%;
+}
+
+.login-button:hover {
+	    background: linear-gradient(to top, #0000dd, #0044ff); 
+
+}
+
+/* style for main and user info */
+
+body {
+	padding-top: 60px;
+}
+
+.nv {
+	background-color: #191970;
+	border: none;
+	height: 60px;
+}
+
+.dropdown {
+	display: inline;
+}
+
+.btn-blue {
+	background-color: #191970;
+	border: none;
+	color: white;
+	padding-top:12px;
+}
+
+.btn-blue:hover,
+.btn-blue:active,
+.btn-blue:focus {
+	background-color: #191970;
+	color: #83c5ff;
+	border: none;
+	padding-top: 12px;
+}
+
+.moved-menu {
+	margin-top: 29px;
+	margin-left: -130px;
+    width: 183px;
+    background-color: white;
+    border-radius: 0;
+    font-color: white;
+}
+
+.dropdown-toggle:active,
+.open .dropdown-toggle {
+	background: #191970 !important;
+	color: #83c5ff !important;
+}
+
+.tasks {
+
+}
+
+.myTasks {
+	border: 1px solid grey;
+	background-color: lightpink;
+}
+
+.giveTasks {
+	border: 1px solid grey;
+	background-color: lightgreen;
+}
+
+.center-text {
+	padding-top: 15px;
+	text-align: center;
+
+}
+
+.name1 {
+	margin-top: 15px;
+	display: inline;
+	color: white;
+	float: left;
+}
+
+.nv-back {
+	background-color: rgb(176, 240, 255);
+	height: 40px;
+	/*border: 1px solid red;*/
+}
+
+.row {
+	padding-top: 50px;
+}
+
+.info-label {
+	padding-top: 12px;
+}
+
+/*.sub-type {*/
+	/*display: inline-block;*/
+	/*float: left;*/
+	/*height: 60px;*/
+/*}*/
+
+.pointer {
+	float: right;
+}
