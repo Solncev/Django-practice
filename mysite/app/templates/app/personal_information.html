@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>Вход</title>
+	<title>Личная информация</title>
     {% load staticfiles %}
 	<link rel="stylesheet" href="{% static 'app/style.css' %}">
     <!-- Bootstrap -->
@@ -14,16 +14,28 @@
     <link rel="stylesheet" href="../../static/app/font-awesome/css/font-awesome.min.css">
 </head>
 <body>
-{% if profile %}
+{% if personal_information %}
 <div class="header">
 	<h2 class="name"><i class="fa fa-university" aria-hidden="true"></i>&nbsp inUNI</h2>
     <div class="border"><h4 class="about">О проекте</h4></div>
 </div>
-    Hello, {{ profile.user.username }}!
-    <li><a href="/app/logout/">Выйти</a></li>
-    <li><a href="/app/assign_kpi/">Назначить KPI</a></li>
-    <li><a href="/app/personal_information/">Личная информация</a></li>
+    Username: {{ personal_information.user.username }} <br>
+    Имя: {{ personal_information.user.first_name }} <br>
+    Фамилия:{{ personal_information.user.last_name }} <br>
+    Отчество:{{ personal_information.third_name }} <br>
+    Направление: {{ personal_information.department }} <br>
+    Должность: {{ personal_information.position }} <br>
+    <a href="/app/profile/">Назад</a>
 {% else %}
 {% endif %}
+</body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
 </body>
 </html>

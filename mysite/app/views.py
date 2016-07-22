@@ -62,3 +62,6 @@ def logout(request):
     auth.logout(request)
     return redirect('login')
 
+def personal_information(request):
+    personal_information = UserProfile.objects.get(user=auth.get_user(request))
+    return render_to_response('app/personal_information.html', {'personal_information': personal_information})
