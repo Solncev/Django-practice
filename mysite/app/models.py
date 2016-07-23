@@ -52,15 +52,15 @@ class KPI(models.Model):
 
 class AssignedKPI(models.Model):
     assigner = models.ForeignKey(User, null=True)
-    kpi = models.ForeignKey('KPI')
+    kpi = models.ForeignKey('KPI', verbose_name="KPI")
     department = models.ForeignKey('Department')
-    amount = models.IntegerField(default=0)
+    amount = models.IntegerField(default=0, verbose_name="Количество")
+    deadline = models.DateTimeField(null=True, blank=True, verbose_name="Крайний срок")
     complete = models.IntegerField(
         blank=True, default=0
     )
     datetime = models.DateTimeField(null=True, blank=True)
-    comment = models.CharField(max_length=500, blank=True)
-    deadline = models.DateTimeField(null=True, blank=True)
+    comment = models.TextField(blank=True, verbose_name="Комментарий")
     budget = models.IntegerField(default=0, blank=True)
     report = models.CharField(max_length=500, blank=True)
 
@@ -84,11 +84,13 @@ class Comments(models.Model):
     def __str__(self):
         return self.sender.user.username
 
+
 class Budget(models.Model):
     budget = models.IntegerField(default=0)
     datetime = models.DateTimeField(null=True, blank=True)
     assigner = models.ForeignKey(User, null=True)
     department = models.OneToOneField('Department', null=True)
+
 
 class AcceptRejectKPI(models.Model):
     accepted = models.NullBooleanField(null=True, blank=True)

@@ -45,7 +45,7 @@ def main(request):
         else:
             percent[i] = 0
         i = i + 1
-    return render_to_response('app/main.html', {'profile': profile,'set':set, 'profile_set':profile_set, 'percent':percent})
+    return render_to_response('app/main.html', {'profile': profile,'set': set, 'profile_set': profile_set, 'percent': percent})
 
 # Без значения id_department в url в это представление попасть НЕЛЬЗЯ
 def assign_kpi(request, id_department):
@@ -53,14 +53,18 @@ def assign_kpi(request, id_department):
     args.update(csrf(request))
     id_department = id_department
     assigned_kpi = AssignedKPI(assigner=request.user, datetime=datetime.now(), department=Department.objects.get(id=id_department))
+
     # Форма для назначения KPI, instance - установление дефолтных значений обязательных полей
     args['form'] = AssignKPIform(instance=assigned_kpi)
+
     # Форма для создания KPI
     args['creation_form'] = KPICreationForm()
     args['department'] = Department.objects.get(id=id_department)
     args['id_department'] = id_department
-    # Получаем все AssignesKPI, назначенные выбранному структурному подразделению
+
+    # Получаем все AssignedKPI, назначенные выбранному структурному подразделению
     args['department_set'] = AssignedKPI.objects.filter(department=args['department'], assigner=request.user)
+
     # Высчитываем процент выполнения KPI
     percent = {}
     i = 0
@@ -70,6 +74,7 @@ def assign_kpi(request, id_department):
         else:
             percent[i] = 0
         i = i + 1
+
     # Попадаем сюда при отправке форм
     if request.method == "POST":
         form = AssignKPIform(request.POST)
