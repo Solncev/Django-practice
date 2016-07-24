@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>inUNI</title>
+    {% load staticfiles %}
+    <!-- Bootstrap -->
+    <link href="../../static/app/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link rel="stylesheet" href="{% static 'app/style.css' %}">
+    <script type="text/javascript" src="{% static 'app/bootstrap/js/jquery-3.1.0.min.js' %}"></script>
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="../../static/app/bootstrap/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="../../static/app/font-awesome/css/font-awesome.min.css">
+</head>
+<body>
+{{ access_error }}
+{% if access_error %}}{% else %}
+
+{{ assigned_kpi.kpi.name }}<br>
+Описание задания:<br>{{ assigned_kpi.comment }}<br>
+Требуемое количество: {{ assigned_kpi.amount }}<br>
+Крайний срок: {{ assigned_kpi.deadline }}<br>
+Процент выполнения: {{ percent }} %
+    {% if assigned_kpi.accepted == None %}
+    <a href="/app/kpi/accept/{{ assigned_kpi.id }}"><li>Принять</li></a>
+    <a href="/app/kpi/reject/{{ assigned_kpi.id }}"><li>Отклонить</li></a>
+        {% endif %}
+    {% if assigned_kpi.accepted == True %}
+        <form action="/app/kpi/report/{{ assigned_kpi.id }}/" method="post" name="form">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" value="Доложить">
+        </form>
+        {% endif %}
+    {% if assigned_kpi.accepted == False %}
+        Задание отклонено.
+        {% endif %}
+{% endif %}
+</body>
+</html>

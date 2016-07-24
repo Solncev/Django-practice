@@ -4,20 +4,26 @@
 	<meta charset="UTF-8">
 	<title>Вход</title>
     {% load staticfiles %}
-	<link rel="stylesheet" href="{% static 'app/style.css' %}">
     <!-- Bootstrap -->
     <link href="../../static/app/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
-
+    <link rel="stylesheet" href="{% static 'app/style.css' %}">
     <script type="text/javascript" src="{% static 'app/bootstrap/js/jquery-3.1.0.min.js' %}"></script>
     <script src="http://code.jquery.com/jquery-latest.js"></script>
     <script src="../../static/app/bootstrap/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="../../static/app/font-awesome/css/font-awesome.min.css">
 </head>
 <body>
-<div class="header">
-	<h2 class="name"><i class="fa fa-university" aria-hidden="true"></i>&nbsp inUNI</h2>
-    <div class="border"><h4 class="about">О проекте</h4></div>
-</div>
+<nav class="nv navbar navbar-default navbar-fixed-top">
+    <div class="container">
+
+        <h3 class="name1"><i class="fa fa-university" aria-hidden="true"></i> inUNI &nbsp </h3>
+        <div class="border"><a href="#"><h4 class="about">О проекте</h4></a></div>
+    </div>
+</nav>
+{#<div class="header">#}
+{#	<h2 class="name"><i class="fa fa-university" aria-hidden="true"></i>&nbsp inUNI</h2>#}
+{#    <div class="border"><h4 class="about">О проекте</h4></div>#}
+{#</div>#}
 {% block login %}
 <div class="wrapper">
     <form action="/app/login/" method="post">
@@ -28,7 +34,7 @@
         <label for="password" class="label1">Пароль</label>
         <input type="password" class="textfield" name="password" id="password">
         {% if login_error %}
-            <label class="error">{{ login_error }}</label>
+            <label class="errorlabel">{{ login_error }}</label>
         {% endif %}
         <input type="submit" class="login-button" value="Войти">
     </form>

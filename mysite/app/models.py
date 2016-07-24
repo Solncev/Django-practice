@@ -4,13 +4,13 @@ from __future__ import unicode_literals
 from django.contrib.auth.models import User
 from django.db import models
 
-
 class UserProfile(models.Model):
     user = models.OneToOneField(User)
     third_name = models.CharField(max_length=30)
     birth_date = models.DateField('birth date')
     position = models.ForeignKey('Position', related_name='users', blank=True, null=True)
     department = models.ForeignKey('Department', related_name='users', blank=True, null=True)
+
 
     def __str__(self):
         return self.user.username
@@ -45,22 +45,28 @@ class KPI(models.Model):
     name = models.CharField(max_length=50, unique=True)
 
     def __str__(self):
-            return self.name
+        return self.name
 
 
 class AssignedKPI(models.Model):
     assigner = models.ForeignKey(User, null=True)
     kpi = models.ForeignKey('KPI')
     department = models.ForeignKey('Department')
-    amount = models.IntegerField(default=0)
-    complete = models.IntegerField(
-        blank=True, default=0
+    amount = models.FloatField(default=0.0)
+    complete = models.FloatField(
+        blank=True, default=0.0
     )
     datetime = models.DateTimeField(null=True, blank=True)
     comment = models.CharField(max_length=500, blank=True)
     deadline = models.DateTimeField(null=True, blank=True)
     budget = models.IntegerField(default=0, blank=True)
     report = models.CharField(max_length=500, blank=True)
+    accepted = models.NullBooleanField(null=True, blank=True)
+    datetimeaccept = models.DateTimeField(null=True, blank=True)
+
+    def to_percent(self):
+        percent = (float)(self.complete) / (float)(self.amount) * 100.0
+        return round(percent, 1)
 
     def __str__(self):
         return self.kpi.name
@@ -87,10 +93,5 @@ class Budget(models.Model):
     datetime = models.DateTimeField(null=True, blank=True)
     assigner = models.ForeignKey(User, null=True)
     department = models.OneToOneField('Department', null=True)
-
-class AcceptRejectKPI(models.Model):
-    accepted = models.NullBooleanField(null=True, blank=True)
-    kpi = models.ForeignKey('AssignedKPI')
-    datetime = models.DateTimeField(null=True, blank=True)
 
 
