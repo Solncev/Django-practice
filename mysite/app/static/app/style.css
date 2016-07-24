@@ -308,6 +308,7 @@ body {
 
 .pointer {
 	float: right;
+<<<<<<< HEAD
 }
 
 .asg-kpi {
@@ -365,4 +366,6 @@ body {
 
 .assign-button:hover {
 	background: linear-gradient(to top, #0000dd, #0044ff);
+=======
+>>>>>>> f5665c62f7c694c0d87fea610b23948ee67575be
 }
