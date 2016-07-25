@@ -13,7 +13,8 @@
     <link rel="stylesheet" href="../../static/app/font-awesome/css/font-awesome.min.css">
 </head>
 <body>
-{% if profile %}
+
+
 <nav class="nv navbar navbar-default navbar-fixed-top">
     <div class="container">
         <div class="dropdown">
@@ -34,7 +35,10 @@
         <h4 class="center-text">Назначенные мне задания</h4>
         <hr>
     <ul>
-        {% for y in profile_set %}<li>{{ y.kpi.name }} {{ y.comment }} {{ y.amount }} </li>{% endfor %}
+
+        {% for y in not_accepted_kpis %}<li><a href="/app/kpi/{{ y.id }}/">{{ y.kpi.name }} {{ y.comment }} {{ y.amount }}</a>(Новое задание)</li>{% endfor %}
+        {% for y in accepted_kpis %}<li><a href="/app/kpi/{{ y.id }}/">{{ y.kpi.name }} {{ y.comment }} {{ y.amount }}</a></li>{% endfor %}
+
         {% for x in percent %}<li>{{ x }} %</li>{% endfor %}
     </ul>
     </div>
@@ -53,7 +57,6 @@
 </div>
 
 
-{% else %}
-{% endif %}
+
 </body>
 </html>
