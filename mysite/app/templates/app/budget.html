@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>inUNI</title>
+</head>
+<body>
+{{ department.name }} <br>
+Руководитель {{ department.head.first_name }} {{ department.head.last_name }} {{ profile.third_name }}
+<form action="/app/budget/{{ department.id }}/" method="post">
+    {% csrf_token %}
+    {{ form  }}
+    <input type="submit" class="login-button" value="Выделить средства">
+    {{ form_error }}
+</form>
+</body>
+</html>
