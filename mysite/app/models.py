@@ -59,11 +59,10 @@ class AssignedKPI(models.Model):
     amount = models.FloatField(default=0.0)
     complete = models.FloatField(
         blank=True, default=0.0
-
     )
     datetime = models.DateTimeField(null=True, blank=True)
-    deadline = models.DateTimeField(blank=True)
-    comment = models.TextField(blank=True, verbose_name="Комментарий")
+    deadline = models.DateTimeField(null=True, blank=True)
+    comment = models.TextField(blank=True, default="", verbose_name="Комментарий")
     budget = models.IntegerField(default=0, blank=True)
     report = models.CharField(max_length=500, blank=True)
     accepted = models.NullBooleanField(null=True, blank=True)

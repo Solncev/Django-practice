@@ -53,14 +53,13 @@
             <h4 class="padded-label">Руководитель: {{ department.head.last_name }} {{ department.head.first_name }} {{ profile.third_name }}</h4>
             <form action="/app/assign_kpi/{{ id_department }}/" method="post" class="assign-kpi-form">
                 {% csrf_token %}
-                <p>KPI: {{ form.kpi }} <span class="create-kpi" id="form_open_button"><i class="fa fa-plus fa-lg" aria-hidden="true"></i></span> </p>
+                <p>KPI:  {{ form.kpi }} <span class="create-kpi" id="form_open_button"><i class="fa fa-plus fa-lg" aria-hidden="true"></i></span> </p>
                 <div id="kpi-creation-form">
-                    <form action="/app/create_kpi/{{ id_department }}/" method="post">
                     {% csrf_token %}
                     <p class="kpi-name">Название: {{ creation_form.name }}</p>
                     <input type="submit" class="create-kpi-button" value="Создать KPI">
-                </form>
                 </div>
+                {{ form.assigner }} {{ form.department }} {{ form.datetime }}
                 <p>Количество: {{ form.amount }}</p>
                 <p>Крайний срок: {{ form.deadline }}</p>
                 <p>Комментарий: {{ form.comment }}</p>

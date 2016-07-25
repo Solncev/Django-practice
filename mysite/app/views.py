@@ -31,6 +31,7 @@ def login(request):
     else:
         return render(request,'app/login.html', args)
 
+
 def main(request):
     if not request.user.is_authenticated():
         return redirect('login')
