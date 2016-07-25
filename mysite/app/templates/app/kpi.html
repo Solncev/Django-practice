@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>inUNI</title>
+	<title>KPI</title>
     {% load staticfiles %}
     <!-- Bootstrap -->
     <link href="{% static 'app/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" media="screen">
@@ -27,6 +27,7 @@
         <h3 class="name1"><i class="fa fa-university" aria-hidden="true"></i> {{ profile.user.first_name }} {{ profile.user.last_name  }} &nbsp </h3>
     </div>
 </nav>
+
 <div class="nv-back divide-nav">
   <div class="back-link container">
     <h4 class="divide-text"><a href="/app/main/"><i class="fa fa-chevron-left" aria-hidden="true"></i>  Назад</a></h4>
@@ -37,9 +38,10 @@
     <div class="col-xs-10 col-xs-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
         {{ access_error }}
         {% if access_error %}}{% else %}
+
         {{ assigned_kpi.kpi.name }}<br>
-        <p>Описание задания:{{ assigned_kpi.comment }} </p>
-        <p>Требуемое количество: {{ assigned_kpi.amount }}</p>
+        Описание задания:<br>{{ assigned_kpi.comment }}<br>
+        Требуемое количество: {{ assigned_kpi.amount }}<br>
         Крайний срок: {{ assigned_kpi.deadline }}<br>
         Процент выполнения: {{ percent }} %
         {% if assigned_kpi.accepted == None %}
@@ -49,8 +51,10 @@
         {% if assigned_kpi.accepted == True %}
         <form action="/app/kpi/report/{{ assigned_kpi.id }}/" method="post" name="form">
             {% csrf_token %}
-            {{ form }}
-            <input type="submit" value="Доложить">
+            <p>Выполнено: {{ form.complete }}</p>
+            <p>Бюджет: {{ form.budget }}</p>
+            <p>Комментарий: {{ form.report }}</p>
+            <input type="submit" value="Отправить">
         </form>
         {% endif %}
         {% if assigned_kpi.accepted == False %}
@@ -59,6 +63,5 @@
         {% endif %}
     </div>
 </div>
-
 </body>
 </html>

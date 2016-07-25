@@ -6,8 +6,8 @@ from django.shortcuts import render, redirect, render_to_response
 # Create your views here.
 from django.template.context_processors import csrf
 from django.contrib import auth
-from app.models import UserProfile, AssignedKPI, Department
-from app.templates.app.forms import AssignKPIform, KPICreationForm, KPIReportForm
+from app.models import UserProfile, AssignedKPI, Department, Budget
+from app.templates.app.forms import AssignKPIform, KPICreationForm, KPIReportForm, BudgetForm
 
 
 def login(request):
@@ -49,6 +49,7 @@ def main(request):
 
             percent.append(0)
     return render_to_response('app/main.html', {'profile': profile,'set':set, 'accepted_kpis':accepted_kpis, 'percent':percent, 'not_accepted_kpis': not_accepted_kpis})
+
 
 
 # Без значения id_department в url в это представление попасть НЕЛЬЗЯ
@@ -144,6 +145,7 @@ def accept(request, flag, id_assigned_kpi):
     assigned_kpi.save()
     return redirect('main')
 
+
 def report(request, id_assigned_kpi):
     if not request.user.is_authenticated():
         return redirect('login')
@@ -199,4 +201,39 @@ def kpi(request, id_assigned_kpi):
     else:
         access_error = "Задание отклонено"
         return render(request, 'app/access_error.html', {'access_error': access_error})
+
+
+def budget(request, id_department):
+    if not request.user.is_authenticated():
+        return redirect('login')
+    args = {}
+    args.update(csrf(request))
+    id_department = id_department
+    try:
+        department = Department.objects.get(id=id_department)
+    except Department.DoesNotExist:
+        access_error = "Данного структурного подразделения не существует"
+        return render(request, 'app/access_error.html', {'access_error':access_error})
+    profile = UserProfile.objects.get(user=request.user)
+    if department.superior != profile.department:
+        access_error = "Вы не можете выделять средства этому структурному подразделению."
+        return render(request, 'app/access_error.html', {'access_error':access_error})
+    args['department'] = department
+    args['profile'] = profile
+    budget = Budget(assigner=request.user,  department=Department.objects.get(id=id_department))
+
+    args['form'] = BudgetForm(instance=budget)
+
+    if request.method == "POST":
+        form = BudgetForm(request.POST)
+        args['form'] = BudgetForm(instance=budget)
+        if form.is_valid():
+            form.save()
+            return redirect('main')
+        else:
+            args['form_error'] = "Данные введены неверно."
+            return render(request, 'app/budget.html', args)
+    else:
+        return render(request, 'app/budget.html', args)
+
 

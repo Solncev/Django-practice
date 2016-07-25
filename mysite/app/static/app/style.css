@@ -250,7 +250,7 @@ body {
     width: 183px;
     background-color: white;
     border-radius: 0;
-    color: white;
+    font-color: white;
 }
 
 .dropdown-toggle:active,
@@ -308,6 +308,7 @@ body {
 
 .pointer {
 	float: right;
+<<<<<<< HEAD
 }
 
 .asg-kpi {
@@ -317,67 +318,21 @@ body {
 	background-color: white;
 }
 
-.create-kpi {
-	display: inline-block;
-	padding: 3px;
-	float: right;
-	margin: 0 5% 0 0;
-	margin-right: 5%;
-	background-color: white;
-	border: none;
-	color: #15c000;
-}
-
-.create-kpi:hover {
-	color: #1fff00;
-}
-
 #id_kpi {
-	display: inline-block;
 	font-size: 24px;
-	width: 67%;
-	margin: 5px 0 5px 4%;
+	width: 78%;
+	margin: 5px 5%;
 	/*line-height: 30px;*/
 }
 
-#kpi-creation-form {
-	display: none;
-}
-
-.create-kpi-button {
-	display: block;
-	font-size: 18px;
-	border: 1px solid rgba(0, 0, 0, 0.53);
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.31), rgba(0, 0, 0, 0.35));
-    color: white;
-    height: 40px;
-	margin-top: 20px;
-	margin-bottom: 20px;
-	width: 95%;
-	border-radius: 3px;
-}
-
-.create-kpi-button:hover {
-	    background: linear-gradient(to top, rgba(0, 0, 0, 0.21), rgba(0, 0, 0, 0.3));
-
-}
-
-.kpi-name {
-	width: 95%;
-}
-
-#id_name {
-	width: 67%;
-}
-
 #id_amount {
-	width: 70px;
-	margin: 5px 32px;
+	width: 60px;
+	margin: 5px 50px;
 }
 
 #id_deadline {
-	width: 120px;
-	margin: 5px 15px;
+	width: 105px;
+	margin: 0 34px;
 	/*margin: 5px 5%;*/
 }
 
@@ -411,4 +366,6 @@ body {
 
 .assign-button:hover {
 	background: linear-gradient(to top, #0000dd, #0044ff);
+=======
+>>>>>>> f5665c62f7c694c0d87fea610b23948ee67575be
 }

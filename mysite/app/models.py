@@ -4,7 +4,6 @@ from __future__ import unicode_literals
 from django.contrib.auth.models import User
 from django.db import models
 
-
 class UserProfile(models.Model):
     user = models.OneToOneField(User)
     third_name = models.CharField(max_length=30)
@@ -19,7 +18,7 @@ class UserProfile(models.Model):
 
 
 class Department(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=50)
     head = models.OneToOneField(User, related_name="head_of_department")
     superior = models.ForeignKey(
         'Department',
@@ -58,13 +57,15 @@ class AssignedKPI(models.Model):
 
     amount = models.FloatField(default=0.0)
     complete = models.FloatField(
-        blank=True, default=0.0
+        blank=True,
+        default=0.0,
+        verbose_name = "Выполнено",
     )
     datetime = models.DateTimeField(null=True, blank=True)
     deadline = models.DateTimeField(null=True, blank=True)
     comment = models.TextField(blank=True, default="", verbose_name="Комментарий")
-    budget = models.IntegerField(default=0, blank=True)
-    report = models.CharField(max_length=500, blank=True)
+    budget = models.IntegerField(default=0, blank=True, verbose_name="Бюджет")
+    report = models.CharField(max_length=500, blank=True, verbose_name="Комментарий")
     accepted = models.NullBooleanField(null=True, blank=True)
     datetimeaccept = models.DateTimeField(null=True, blank=True)
 
@@ -94,8 +95,7 @@ class Comments(models.Model):
 
 
 class Budget(models.Model):
-    budget = models.IntegerField(default=0)
-    datetime = models.DateTimeField(null=True, blank=True)
+    assigned_budget = models.IntegerField(default=0, verbose_name="Количество")
     assigner = models.ForeignKey(User, null=True)
     department = models.OneToOneField('Department', null=True)
 
