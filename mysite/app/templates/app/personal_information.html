@@ -17,15 +17,18 @@
 <nav class="nv navbar navbar-default navbar-fixed-top">
     <div class="container">
         <div class="dropdown">
-            <button class="btn btn-default dropdown-toggle btn-blue" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"> <i class="fa fa-chevron-down fa-2x" aria-hidden="true"></i> </button>
+            <button class="btn btn-default dropdown-toggle btn-blue" type="button" id="dropdownMenu1"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                <i class="fa fa-chevron-down fa-2x" aria-hidden="true"></i> </button>
         <ul class="dropdown-menu moved-menu" aria-labelledby="dropdownMenu1">
             <li><a href="/app/personal_information/">Личная информация</a></li>
-            <li><a href="#">Настройки</a></li>
+            <li><a href="#" id="settings">Настройки</a></li>
             <li role="separator" class="divider"></li>
             <li><a href="/app/logout/">Выход</a></li>
         </ul>
         </div>
-        <h3 class="name1"><i class="fa fa-university" aria-hidden="true"></i> {{ personal_information.user.first_name }} {{ personal_information.user.last_name }} &nbsp </h3>
+        <h3 class="name1"><i class="fa fa-university" aria-hidden="true"></i> {{ personal_information.user.first_name }}
+            {{ personal_information.user.last_name }} &nbsp </h3>
     </div>
 </nav>
 
@@ -48,5 +51,10 @@
 
 {% else %}
 {% endif %}
+<script>
+    $('#settings').click(function () {
+        alert("Для изменения настроек обратитесь к администратору сайта.");
+    })
+</script>
 </body>
 </html>

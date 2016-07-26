@@ -23,7 +23,7 @@
                 <i class="fa fa-chevron-down fa-2x" aria-hidden="true"></i> </button>
         <ul class="dropdown-menu moved-menu" aria-labelledby="dropdownMenu1">
             <li><a href="/app/personal_information/">Личная информация</a></li>
-            <li><a href="#">Настройки</a></li>
+            <li><a href="#" id="settings">Настройки</a></li>
             <li role="separator" class="divider"></li>
             <li><a href="/app/logout/">Выход</a></li>
         </ul>
@@ -35,20 +35,27 @@
 
 <div class="tasks">
     <div class="col-lg-5 col-lg-offset-1 col-md-5 col-md-offset-1 col-sm-10 col-sm-offset-1 myTasks">
-        <h4 class="center-text">Назначенные мне задания</h4>
+        <h3 class="center-text">Назначенные мне KPI</h3>
         <hr>
+        <div class="col-md-9 col-sm-10">
+            <div id="new-kpis">
+                {% for y in not_accepted_kpis %}<h4 id="kpi-name"><span><a href="/app/kpi/{{ y.id }}/" > {{ y.kpi.name }}</a></span>
+            </h4>{% endfor %}
+            </div>
+        <div id="kpis">
+            {% for y in accepted_kpis %}<nobr><h4 id="kpi-name"><a href="/app/kpi/{{ y.id }}/">{{ y.kpi.name }} </a></h4></nobr>
+            {% endfor %}
+        </div>
 
-{#    todo#}
-        {% for y in not_accepted_kpis %}<p><a href="/app/kpi/{{ y.id }}/">{{ y.kpi.name }} {{ y.comment }}
-            {{ y.amount }}</a>(Новое задание)</p>{% endfor %}
-        {% for y in accepted_kpis %}<p><a href="/app/kpi/{{ y.id }}/">{{ y.kpi.name }} {{ y.comment }}
-            {{ y.amount }}</a></p>{% endfor %}
+        </div>
 
-        {% for x in percent %}<p>{{ x }} %</p>{% endfor %}
+        <div class="col-md-3 col-sm-2 percentage">
+            {% for x in percent %}<h4>{{ x }} %</h4>{% endfor %}
+        </div>
     </div>
 
     <div class="col-lg-4 col-lg-offset-1 col-md-4 col-md-offset-1 col-sm-10 col-sm-offset-1 giveTasks">
-        <h4 class="center-text">Назначить KPI</h4>
+        <h3 class="center-text">Назначить KPI</h3>
         <hr>
         {% for x in set %}
             <a style="display: block" href="/app/assign_kpi/{{ x.id }}/"><h3> {{ x.name }} </h3>
@@ -62,5 +69,14 @@
 
     </div>
 </div>
+<script>
+    $('#settings').click(function () {
+        alert("Для изменения настроек обратитесь к администратору сайта.");
+    });
+
+    var newkpih = $('#new-kpis').height() + 10;
+    $('.percentage').css('padding-top', newkpih);
+</script>
+
 </body>
 </html>
