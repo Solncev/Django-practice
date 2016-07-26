@@ -6,8 +6,8 @@ from django.shortcuts import render, redirect, render_to_response
 # Create your views here.
 from django.template.context_processors import csrf
 from django.contrib import auth
-from app.models import UserProfile, AssignedKPI, Department, Budget
-from app.templates.app.forms import AssignKPIform, KPICreationForm, KPIReportForm, BudgetForm
+from app.models import UserProfile, AssignedKPI, Department, KPI, Comments, Budget
+from app.templates.app.forms import AssignKPIform, KPICreationForm, KPIReportForm, BudgetForm, CommentCreationForm
 
 
 def login(request):
@@ -31,7 +31,6 @@ def login(request):
     else:
         return render(request,'app/login.html', args)
 
-
 def main(request):
     if not request.user.is_authenticated():
         return redirect('login')
@@ -48,8 +47,8 @@ def main(request):
         else:
 
             percent.append(0)
-    return render_to_response('app/main.html', {'profile': profile,'set':set, 'accepted_kpis':accepted_kpis, 'percent':percent, 'not_accepted_kpis': not_accepted_kpis})
-
+    return render_to_response('app/main.html', {'profile': profile,'set':set, 'accepted_kpis':accepted_kpis,
+                                                'percent':percent, 'not_accepted_kpis': not_accepted_kpis})
 
 
 # Без значения id_department в url в это представление попасть НЕЛЬЗЯ
@@ -70,7 +69,8 @@ def assign_kpi(request, id_department):
         return render(request, 'app/access_error.html', {'access_error':access_error})
     args['department'] = department
     args['profile'] = profile
-    assigned_kpi = AssignedKPI(assigner=request.user, datetime=datetime.now(), department=Department.objects.get(id=id_department))
+    assigned_kpi = AssignedKPI(assigner=request.user, datetime=datetime.now(),
+                               department=Department.objects.get(id=id_department))
 
     # Форма для назначения KPI, instance - установление дефолтных значений обязательных полей
 
@@ -96,10 +96,14 @@ def assign_kpi(request, id_department):
         form = AssignKPIform(request.POST)
         creation_form = KPICreationForm(request.POST)
         args['form'] = AssignKPIform(instance=assigned_kpi)
-        if creation_form.is_valid():
-            creation_form.save()
-            args['creation_form'] = KPICreationForm()
-            return render(request,'app/assign_kpi.html', args)
+        name = request.POST.get('name')
+        try:
+            KPI.objects.get(name=name)
+        except KPI.DoesNotExist:
+            if creation_form.is_valid():
+                creation_form.save()
+                args['creation_form'] = KPICreationForm()
+                return render(request,'app/assign_kpi.html', args)
         if form.is_valid():
             form.save()
             return redirect('main')
@@ -185,22 +189,50 @@ def kpi(request, id_assigned_kpi):
         access_error = "Такого KPI не существует."
         return render(request, 'app/access_error.html', {'access_error': access_error})
     profile = UserProfile.objects.get(user=request.user)
-    if assigned_kpi.department != profile.department:
-        access_error = "Вы не имеете доступа к данному KPI"
-        return render(request, 'app/access_error.html', {'access_error': access_error})
+    department = assigned_kpi.department
     args = {}
     args.update(csrf(request))
-    args['profile'] = profile
-    args['assigned_kpi'] = assigned_kpi
-    args['percent'] = assigned_kpi.to_percent()
-    if assigned_kpi.accepted is None:
-        return render(request, 'app/kpi.html', args)
-    if assigned_kpi.accepted == True:
-        args['form'] = KPIReportForm()
-        return render(request, 'app/kpi.html', args)
+    args['access_flag']= profile.has_access(department)
+    if department == profile.department or args['access_flag']:
+        args.update(csrf(request))
+        args['profile'] = profile
+        args['assigned_kpi'] = assigned_kpi
+        args['percent'] = assigned_kpi.to_percent()
+
+        # args['access_flag'] = True
+
+        comment = Comments(sender=request.user, kpi=assigned_kpi, datetime=datetime.now())
+        args['comment_form'] = CommentCreationForm(instance=comment)
+        args['comments_set'] = Comments.objects.filter(kpi=assigned_kpi)
+        if assigned_kpi.accepted is None:
+            return render(request, 'app/kpi.html', args)
+        if assigned_kpi.accepted == True:
+            if args['access_flag'] is False:
+                args['form'] = KPIReportForm()
+            return render(request, 'app/kpi.html', args)
+        else:
+            args['access_error'] = "Задание отклонено"
+            return render(request, 'app/access_error.html', args)
     else:
-        access_error = "Задание отклонено"
+        access_error = "Вы не имеете доступа к данному KPI"
         return render(request, 'app/access_error.html', {'access_error': access_error})
+
+
+def send_comment(request):
+    if request.method == "POST":
+        form = CommentCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect(request.META['HTTP_REFERER'])
+    else:
+        return redirect('main')
+
+
+def redirectpage(requet):
+    if not requet.user.is_authenticated():
+        return redirect('/app/login/')
+    else:
+        return redirect('/app/main/')
 
 
 def budget(request, id_department):
@@ -235,5 +267,3 @@ def budget(request, id_department):
             return render(request, 'app/budget.html', args)
     else:
         return render(request, 'app/budget.html', args)
-
-
