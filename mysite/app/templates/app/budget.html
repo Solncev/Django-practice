@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<title>KPI</title>
+    <meta charset="UTF-8">
+    <title>Бюджет</title>
     {% load staticfiles %}
     <!-- Bootstrap -->
     <link href="{% static 'app/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" media="screen">
@@ -36,31 +36,14 @@
 
 <div class="row">
     <div class="col-xs-10 col-xs-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
-        {{ access_error }}
-        {% if access_error %}}{% else %}
-
-        {{ assigned_kpi.kpi.name }}<br>
-        Описание задания:<br>{{ assigned_kpi.comment }}<br>
-        Требуемое количество: {{ assigned_kpi.amount }}<br>
-        Крайний срок: {{ assigned_kpi.deadline }}<br>
-        Процент выполнения: {{ percent }} %
-        {% if assigned_kpi.accepted == None %}
-        <a href="/app/kpi/accept/{{ assigned_kpi.id }}"><li>Принять</li></a>
-        <a href="/app/kpi/reject/{{ assigned_kpi.id }}"><li>Отклонить</li></a>
-        {% endif %}
-        {% if assigned_kpi.accepted == True %}
-        <form action="/app/kpi/report/{{ assigned_kpi.id }}/" method="post" name="form">
-            {% csrf_token %}
-            <p>Выполнено: {{ form.complete }}</p>
-            <p>Бюджет: {{ form.budget }}</p>
-            <p>Комментарий: {{ form.report }}</p>
-            <input type="submit" value="Отправить">
-        </form>
-        {% endif %}
-        {% if assigned_kpi.accepted == False %}
-        Задание отклонено.
-        {% endif %}
-        {% endif %}
+    {{ department.name }} <br>
+    Руководитель {{ department.head.first_name }} {{ department.head.last_name }} {{ profile.third_name }}
+    <form action="/app/budget/{{ department.id }}/" method="post">
+        {% csrf_token %}
+        {{ form  }}
+        <input type="submit" class="login-button" value="Выделить средства">
+        {{ form_error }}
+    </form>
     </div>
 </div>
 </body>

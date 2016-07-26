@@ -34,13 +34,10 @@
     <div class="col-lg-5 col-lg-offset-1 col-md-5 col-md-offset-1 col-sm-10 col-sm-offset-1 myTasks">
         <h4 class="center-text">Назначенные мне задания</h4>
         <hr>
-    <ul>
+        {% for y in not_accepted_kpis %}<p><a href="/app/kpi/{{ y.id }}/">{{ y.kpi.name }} {{ y.comment }} {{ y.amount }}</a>(Новое задание)</p>{% endfor %}
+        {% for y in accepted_kpis %}<p><a href="/app/kpi/{{ y.id }}/">{{ y.kpi.name }} {{ y.comment }} {{ y.amount }}</a></p>{% endfor %}
 
-        {% for y in not_accepted_kpis %}<li><a href="/app/kpi/{{ y.id }}/">{{ y.kpi.name }} {{ y.comment }} {{ y.amount }}</a>(Новое задание)</li>{% endfor %}
-        {% for y in accepted_kpis %}<li><a href="/app/kpi/{{ y.id }}/">{{ y.kpi.name }} {{ y.comment }} {{ y.amount }}</a></li>{% endfor %}
-
-        {% for x in percent %}<li>{{ x }} %</li>{% endfor %}
-    </ul>
+        {% for x in percent %}<p>{{ x }} %</p>{% endfor %}
     </div>
     <div class="col-lg-4 col-lg-offset-1 col-md-4 col-md-offset-1 col-sm-10 col-sm-offset-1 giveTasks">
         <h4 class="center-text">Назначить KPI</h4>
@@ -50,13 +47,11 @@
                 <p><i class="pointer fa fa-chevron-right fa-2x" aria-hidden="true"></i></p>
             <h5 class="sub-type" style="padding-top: 20px">Руководитель: {{ x.head.first_name}} {{ x.head.last_name }} </h5>
             </a>
+            <a href="/app/budget/{{ x.id }}/">Распределить бюджет</a>
             <hr>
         {% endfor %}
 
     </div>
 </div>
-
-
-
 </body>
 </html>
