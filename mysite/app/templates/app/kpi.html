@@ -1,70 +1,162 @@
+{#<!DOCTYPE html>#}
+{#<html lang="en">#}
+{#<head>#}
+{#	<meta charset="UTF-8">#}
+{#	<title>KPI</title>#}
+{#	{% load staticfiles %}#}
+{#	<!-- Bootstrap -->#}
+{#	<link href="{% static 'app/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" media="screen">#}
+{#	<link rel="stylesheet" href="{% static 'app/style.css' %}">#}
+{#	<script type="text/javascript" src="{% static 'app/bootstrap/js/jquery-3.1.0.min.js' %}"></script>#}
+{#	<script src="http://code.jquery.com/jquery-latest.js"></script>#}
+{#	<script src="{% static 'app/bootstrap/js/bootstrap.min.js' %}"></script>#}
+{#	<link rel="stylesheet" href="{% static 'app/font-awesome/css/font-awesome.min.css' %}">#}
+{#</head>#}
+{#<body>#}
+{#<nav class="nv navbar navbar-default navbar-fixed-top">#}
+{#	<div class="container">#}
+{#		<div class="dropdown">#}
+{#			<button class="btn btn-default dropdown-toggle btn-blue" type="button" id="dropdownMenu1"#}
+{#					data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">#}
+{#				<i class="fa fa-chevron-down fa-2x" aria-hidden="true"></i> </button>#}
+{#		<ul class="dropdown-menu moved-menu" aria-labelledby="dropdownMenu1">#}
+{#			<li><a href="/app/personal_information/">Личная информация</a></li>#}
+{#			<li><a href="#">Настройки</a></li>#}
+{#			<li role="separator" class="divider"></li>#}
+{#			<li><a href="/app/logout/">Выход</a></li>#}
+{#		</ul>#}
+{#		</div>#}
+{#		<h3 class="name1"><i class="fa fa-university" aria-hidden="true"></i> {{ profile.user.first_name }}#}
+{#			{{ profile.user.last_name  }} &nbsp </h3>#}
+{#	</div>#}
+{#</nav>#}
+{##}
+{#<div class="nv-back divide-nav">#}
+{#  <div class="back-link container">#}
+{#	<h4 class="divide-text"><a href="/app/main/"><i class="fa fa-chevron-left" aria-hidden="true"></i>  Назад</a></h4>#}
+{#  </div>#}
+{#</div>#}
+{##}
+{#<div class="block">#}
+{#{{ access_error }}#}
+{#    {% if access_error %}}{% else %}#}
+{#		<h3 class="center-text">{{ assigned_kpi.kpi.name }}</h3>#}
+{#    <div class="inside">#}
+{#		<p>Описание задания: {{ assigned_kpi.comment }}</p>#}
+{#		<p>Требуемое количество: {{ assigned_kpi.amount }}</p>#}
+{#		<p>Крайний срок: {{ assigned_kpi.deadline }}</p>#}
+{#		<p>Процент выполнения: {{ percent }} %</p>#}
+{#		{% if assigned_kpi.accepted == None %}#}
+{#		<a href="/app/kpi/accept/{{ assigned_kpi.id }}"><p>Принять</p></a>#}
+{#		<a href="/app/kpi/reject/{{ assigned_kpi.id }}"><p>Отклонить</p></a>#}
+{#    {% endif %}#}
+{#	{% if assigned_kpi.accepted == True %}#}
+{#		<form action="/app/kpi/report/{{ assigned_kpi.id }}/" method="post" name="form">#}
+{#			{% csrf_token %}#}
+{#			<p>Выполнено: {{ form.complete }}</p>#}
+{#			<p>Бюджет: {{ form.budget }}</p>#}
+{#			<p>Комментарий: {{ form.report }}</p>#}
+{#			<input type="submit" value="Отправить">#}
+{#		</form>#}
+{#	{% endif %}#}
+{#	{% if assigned_kpi.accepted == False %}#}
+{#		Задание отклонено.#}
+{#	{% endif %}#}
+{#	{% endif %}#}
+{#    </div>#}
+{#</div>#}
+{##}
+{#Богдан#}
+{#{{ assigned_kpi.kpi.name }}<br>#}
+{#        <p>Описание задания: {{ assigned_kpi.comment }}</p>#}
+{#		<p>Требуемое количество: {{ assigned_kpi.amount }}</p>#}
+{#		<p>Крайний срок: {{ assigned_kpi.deadline }}</p>#}
+{#		<p>Процент выполнения: {{ percent }} %</p>#}
+{#    {{ access_error }}#}
+{#    {% if assigned_kpi.accepted == None %}#}
+{#        {% if access_flag == False %}#}
+{#    <a href="/app/kpi/accept/{{ assigned_kpi.id }}"><li>Принять</li></a>#}
+{#    <a href="/app/kpi/reject/{{ assigned_kpi.id }}"><li>Отклонить</li></a>#}
+{#            {% endif %}#}
+{#        {% endif %}#}
+{#    {% if assigned_kpi.accepted == True %}#}
+{#        {% if access_flag == False %}#}
+{#        <form action="/app/kpi/report/{{ assigned_kpi.id }}/" method="post" name="form">#}
+{#        {% csrf_token %}#}
+{#			<p>Выполнено: {{ form.complete }}</p>#}
+{#			<p>Бюджет: {{ form.budget }}</p>#}
+{#			<p>Комментарий: {{ form.report }}</p>#}
+{#			<input type="submit" value="Отправить">#}
+{#        </form>#}
+{#        {% endif %}#}
+{#        {% if assigned_kpi.accepted == False %}#}
+{#		Задание отклонено.#}
+{#	{% endif %}#}
+{#        {% endif %}#}
+{##}
+{#Комментарии#}
+{#{% for x in comments_set %}#}
+{#{{ x.datetime }} {{ x.text }} {{ x.sender }} <br>#}
+{#{% endfor %}#}
+{#<form action="/app/kpi/send_comment/" method="post">#}
+{#    {% csrf_token %}#}
+{#{{ comment_form }}#}
+{#<input type="submit" value="Отправить">#}
+{#</form>#}
+{##}
+{#</body>#}
+{#</html>#}
+{##}
+
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>KPI</title>
+	<title>inUNI</title>
     {% load staticfiles %}
     <!-- Bootstrap -->
-    <link href="{% static 'app/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" media="screen">
+    <link href="../../static/app/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
     <link rel="stylesheet" href="{% static 'app/style.css' %}">
     <script type="text/javascript" src="{% static 'app/bootstrap/js/jquery-3.1.0.min.js' %}"></script>
     <script src="http://code.jquery.com/jquery-latest.js"></script>
-    <script src="{% static 'app/bootstrap/js/bootstrap.min.js' %}"></script>
-    <link rel="stylesheet" href="{% static 'app/font-awesome/css/font-awesome.min.css' %}">
+    <script src="../../static/app/bootstrap/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="../../static/app/font-awesome/css/font-awesome.min.css">
 </head>
 <body>
-<nav class="nv navbar navbar-default navbar-fixed-top">
-    <div class="container">
-        <div class="dropdown">
-            <button class="btn btn-default dropdown-toggle btn-blue" type="button" id="dropdownMenu1"
-                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                <i class="fa fa-chevron-down fa-2x" aria-hidden="true"></i> </button>
-        <ul class="dropdown-menu moved-menu" aria-labelledby="dropdownMenu1">
-            <li><a href="/app/personal_information/">Личная информация</a></li>
-            <li><a href="#">Настройки</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="/app/logout/">Выход</a></li>
-        </ul>
-        </div>
-        <h3 class="name1"><i class="fa fa-university" aria-hidden="true"></i> {{ profile.user.first_name }}
-            {{ profile.user.last_name  }} &nbsp </h3>
-    </div>
-</nav>
-
-<div class="nv-back divide-nav">
-  <div class="back-link container">
-    <h4 class="divide-text"><a href="/app/main/"><i class="fa fa-chevron-left" aria-hidden="true"></i>  Назад</a></h4>
-  </div>
-</div>
-
-<div class="row">
-    <div class="col-xs-10 col-xs-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3" style="border: 1px solid red">
-        {{ access_error }}
-        {% if access_error %}}{% else %}
-
-        <h3 class="center-text">{{ assigned_kpi.kpi.name }}</h3>
-        <p>Описание задания: {{ assigned_kpi.comment }}</p>
-        <p>Требуемое количество: {{ assigned_kpi.amount }}</p>
-        <p>Крайний срок: {{ assigned_kpi.deadline }}</p>
-        <p>Процент выполнения: {{ percent }} %</p>
-        {% if assigned_kpi.accepted == None %}
-        <a href="/app/kpi/accept/{{ assigned_kpi.id }}"><p>Принять</p></a>
-        <a href="/app/kpi/reject/{{ assigned_kpi.id }}"><p>Отклонить</p></a>
+{{ assigned_kpi.kpi.name }}<br>
+Описание задания:<br>{{ assigned_kpi.comment }}<br>
+Требуемое количество: {{ assigned_kpi.amount }}<br>
+Крайний срок: {{ assigned_kpi.deadline }}<br>
+Процент выполнения: {{ percent }} % <br>
+    {{ access_error }}
+    {% if assigned_kpi.accepted == None %}
+        {% if access_flag == False %}
+    <a href="/app/kpi/accept/{{ assigned_kpi.id }}/"><li>Принять</li></a>
+    <a href="/app/kpi/reject/{{ assigned_kpi.id }}/"><li>Отклонить</li></a>
+            {% endif %}
         {% endif %}
-        {% if assigned_kpi.accepted == True %}
+    {% if assigned_kpi.accepted == True %}
+        {% if access_flag == False %}
         <form action="/app/kpi/report/{{ assigned_kpi.id }}/" method="post" name="form">
-            {% csrf_token %}
-            <p>Выполнено: {{ form.complete }}</p>
-            <p>Бюджет: {{ form.budget }}</p>
-            <p>Комментарий: {{ form.report }}</p>
-            <input type="submit" value="Отправить">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" value="Доложить">
         </form>
+            {% endif %}
         {% endif %}
-        {% if assigned_kpi.accepted == False %}
-        Задание отклонено.
-        {% endif %}
-        {% endif %}
-    </div>
-</div>
+
+Комментарии
+{% for x in comments_set %}
+{{ x.datetime }} {{ x.text }} {{ x.sender }} <br>
+{% endfor %}
+<form action="/app/kpi/send_comment/" method="post">
+    {% csrf_token %}
+{{ comment_form }}
+<input type="submit" value="Отправить">
+</form>
 </body>
 </html>

@@ -43,7 +43,8 @@
         <h3 class="center-text">Назначенные KPI</h3>
         <hr>
         <div class="kpi-info">
-            {% for y in department_set %}<p>{{ y.kpi.name }} {{ y.comment }} {{ y.amount }} </p>{% endfor %}
+            {% for y in department_set %}<p><a href="/app/kpi/{{ y.id }}/"> {{ y.kpi.name }} {{ y.comment }}
+                {{ y.amount }} </a></p>{% endfor %}
             {% for x in percent %}<p>{{ x }} %</p>{% endfor %}
         </div>
     </div>

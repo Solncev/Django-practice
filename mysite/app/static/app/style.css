@@ -19,6 +19,10 @@
 	.name1 {
 		font-size: 6vw;
 	}
+
+	.block {
+		margin: 0;
+	}
 }
 
 @media (min-width: 320px) and (max-width: 767px) {
@@ -43,6 +47,11 @@
 		font-size: 22px;
 	}
 
+	.block {
+		margin: 0;
+
+	}
+
 }
 
 @media (min-width: 768px) and (max-width: 991px) {
@@ -50,7 +59,6 @@
 		margin: 100px 15% 100px;
 		border-radius: 3px;
 	}
-
 
 	.tasks {
 		padding-top: 40px;
@@ -62,6 +70,12 @@
 
 	.giveTasks {
 		margin-top: 40px;
+		border-radius: 3px;
+	}
+
+	.block {
+		border: 3px solid grey;
+		margin: 20px 15%;
 		border-radius: 3px;
 	}
 }
@@ -81,6 +95,12 @@
 	}
 
 	.giveTasks {
+		border-radius: 3px;
+	}
+
+	.block {
+		border: 3px solid grey;
+		margin: 40px 20%;
 		border-radius: 3px;
 	}
 }
@@ -103,6 +123,12 @@
 	.giveTasks {
 		border-radius: 3px;
 	}
+
+	.block {
+		border: 3px solid grey;
+		margin: 50px 25%;
+		border-radius: 3px;
+	}
 }
 
 @media (min-width: 1500px) {
@@ -121,6 +147,12 @@
 	}
 
 	.giveTasks {
+		border-radius: 3px;
+	}
+
+	.block {
+		border: 3px solid grey;
+		margin: 70px 35%;
 		border-radius: 3px;
 	}
 }
@@ -411,4 +443,16 @@ body {
 
 .assign-button:hover {
 	background: linear-gradient(to top, #0000dd, #0044ff);
+}
+
+.block {
+}
+
+.inside {
+	margin: 30px 5%;
+	border: 1px solid red;
+}
+
+#id_report {
+	width: 70%;
 }

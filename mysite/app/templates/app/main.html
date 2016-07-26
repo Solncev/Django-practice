@@ -39,8 +39,10 @@
         <hr>
 
 {#    todo#}
-        {% for y in not_accepted_kpis %}<p><a href="/app/kpi/{{ y.id }}/">{{ y.kpi.name }} {{ y.comment }} {{ y.amount }}</a>(Новое задание)</p>{% endfor %}
-        {% for y in accepted_kpis %}<p><a href="/app/kpi/{{ y.id }}/">{{ y.kpi.name }} {{ y.comment }} {{ y.amount }}</a></p>{% endfor %}
+        {% for y in not_accepted_kpis %}<p><a href="/app/kpi/{{ y.id }}/">{{ y.kpi.name }} {{ y.comment }}
+            {{ y.amount }}</a>(Новое задание)</p>{% endfor %}
+        {% for y in accepted_kpis %}<p><a href="/app/kpi/{{ y.id }}/">{{ y.kpi.name }} {{ y.comment }}
+            {{ y.amount }}</a></p>{% endfor %}
 
         {% for x in percent %}<p>{{ x }} %</p>{% endfor %}
     </div>
