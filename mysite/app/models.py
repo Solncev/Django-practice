@@ -27,10 +27,11 @@ class Department(models.Model):
         null=True,
     )
     DEPARTMENT_TYPE_CHOICES = (
-        ('0', "Направление"),
-        ('1', "Кафедра"),
-        ('2', "Научная группа"),
-        ('3', "Лаборатория"),
+        ('0', "Ректорат"),
+        ('1', "Направление"),
+        ('2', "Кафедра"),
+        ('3', "Научная группа"),
+        ('4', "Лаборатория"),
     )
     type = models.CharField(max_length=1, choices=DEPARTMENT_TYPE_CHOICES)
     KPI = models.ManyToManyField(

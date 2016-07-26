@@ -40,7 +40,6 @@
         <h3 class="center-text">Назначенные KPI</h3>
         <hr>
         <div class="kpi-info">
-            <h4>Назначенные задания:</h4>
             {% for y in department_set %}<p>{{ y.kpi.name }} {{ y.comment }} {{ y.amount }} </p>{% endfor %}
             {% for x in percent %}<p>{{ x }} %</p>{% endfor %}
         </div>
@@ -50,29 +49,33 @@
         <h3 class="center-text">Новый KPI</h3>
         <hr>
         <div class="kpi-info">
-        <h4 class="padded-label">{{ department.name }}</h4>
-        <h4 class="padded-label">Руководитель: {{ department.head.first_name }} {{ department.head.last_name }} {{ profile.third_name }}</h4>
+            <h4 class="padded-label">{{ department.name }}</h4>
+            <h4 class="padded-label">Руководитель: {{ department.head.last_name }} {{ department.head.first_name }} {{ profile.third_name }}</h4>
             <form action="/app/assign_kpi/{{ id_department }}/" method="post" class="assign-kpi-form">
-        {% csrf_token %}
-        {{ form.as_p}}
-        <h4 class="errorlabel center-text">{{ form_error }}</h4>
-        <input type="submit" class="assign-button" value="Назначить">
-        </form>
-
+                {% csrf_token %}
+                <p>KPI: {{ form.kpi }} <span class="create-kpi" id="form_open_button"><i class="fa fa-plus fa-lg" aria-hidden="true"></i></span> </p>
+                <div id="kpi-creation-form">
+                    <form action="/app/create_kpi/{{ id_department }}/" method="post">
+                    {% csrf_token %}
+                    <p class="kpi-name">Название: {{ creation_form.name }}</p>
+                    <input type="submit" class="create-kpi-button" value="Создать KPI">
+                </form>
+                </div>
+                <p>Количество: {{ form.amount }}</p>
+                <p>Крайний срок: {{ form.deadline }}</p>
+                <p>Комментарий: {{ form.comment }}</p>
+                <h4 class="errorlabel center-text">{{ form_error }}</h4>
+                <input type="submit" class="assign-button" value="Назначить">
+            </form>
         </div>
-
     </div>
-
 </div>
 
-
-
-{#    <form action="/app/assign_kpi/{{ id_department }}/" method="post">#}
-{#      {% csrf_token %}#}
-{#      {{ creation_form }}#}
-{#      <input type="submit" class="login-button" value="Создать KPI">#}
-{#      {{ form_error }}#}
-{#    </form>#}
+<script>
+    $("#form_open_button").click(function(){
+        $("#kpi-creation-form").show()
+    });
+</script>
 
 </body>
 </html>
