@@ -145,6 +145,7 @@ def accept(request, flag, id_assigned_kpi):
     assigned_kpi.save()
     return redirect('main')
 
+
 def report(request, id_assigned_kpi):
     if not request.user.is_authenticated():
         return redirect('login')
@@ -200,6 +201,7 @@ def kpi(request, id_assigned_kpi):
     else:
         access_error = "Задание отклонено"
         return render(request, 'app/access_error.html', {'access_error': access_error})
+
 
 def budget(request, id_department):
     if not request.user.is_authenticated():

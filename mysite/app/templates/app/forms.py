@@ -13,15 +13,18 @@ class AssignKPIform(ModelForm):
             'department': HiddenInput,
         }
 
+
 class KPICreationForm(ModelForm):
     class Meta:
         model = KPI
         fields = ['name']
 
+
 class KPIReportForm(forms.Form):
     complete = forms.FloatField(max_value=1000000000000000)
     budget = forms.IntegerField(max_value=1000000000000000)
     report = forms.CharField(max_length=100)
+
 
 class BudgetForm(ModelForm):
     class Meta:
