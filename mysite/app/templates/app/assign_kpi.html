@@ -21,7 +21,7 @@
                 <i class="fa fa-chevron-down fa-2x" aria-hidden="true"></i> </button>
         <ul class="dropdown-menu moved-menu" aria-labelledby="dropdownMenu1">
             <li><a href="/app/personal_information/">Личная информация</a></li>
-            <li><a href="#">Настройки</a></li>
+            <li><a href="#" id="settings">Настройки</a></li>
             <li role="separator" class="divider"></li>
             <li><a href="/app/logout/">Выход</a></li>
         </ul>
@@ -68,7 +68,7 @@
                 {{ form.assigner }} {{ form.department }} {{ form.datetime }}
                 <p>Количество: {{ form.amount }}</p>
                 <p>Крайний срок: {{ form.deadline }}</p>
-                <p>Комментарий: {{ form.comment }}</p>
+                <p>Описание: {{ form.comment }}</p>
                 <h4 class="errorlabel center-text">{{ form_error }}</h4>
                 <input type="submit" class="assign-button" value="Назначить">
             </form>
