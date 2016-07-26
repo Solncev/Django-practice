@@ -1,6 +1,6 @@
 from django.forms import forms, ModelForm, BaseModelFormSet, HiddenInput
 from django import forms
-from app.models import AssignedKPI, KPI, Department
+from app.models import AssignedKPI, KPI, Department, Comments
 
 
 class AssignKPIform(ModelForm):
@@ -22,3 +22,15 @@ class KPIReportForm(forms.Form):
     complete = forms.FloatField(max_value=1000000000000000)
     budget = forms.IntegerField(max_value=1000000000000000)
     report = forms.CharField(max_length=100)
+
+class CommentCreationForm(ModelForm):
+    class Meta:
+        model=Comments
+        fields = {
+            'text', 'sender', 'kpi', 'datetime'
+        }
+        widgets = {
+            'sender': HiddenInput,
+            'kpi': HiddenInput,
+            'datetime': HiddenInput,
+        }

@@ -13,28 +13,35 @@
     <link rel="stylesheet" href="../../static/app/font-awesome/css/font-awesome.min.css">
 </head>
 <body>
-{{ access_error }}
-{% if access_error %}}{% else %}
-
 {{ assigned_kpi.kpi.name }}<br>
 Описание задания:<br>{{ assigned_kpi.comment }}<br>
 Требуемое количество: {{ assigned_kpi.amount }}<br>
 Крайний срок: {{ assigned_kpi.deadline }}<br>
-Процент выполнения: {{ percent }} %
+Процент выполнения: {{ percent }} % <br>
+    {{ access_error }}
     {% if assigned_kpi.accepted == None %}
+        {% if access_flag == False %}
     <a href="/app/kpi/accept/{{ assigned_kpi.id }}"><li>Принять</li></a>
     <a href="/app/kpi/reject/{{ assigned_kpi.id }}"><li>Отклонить</li></a>
+            {% endif %}
         {% endif %}
     {% if assigned_kpi.accepted == True %}
+        {% if access_flag == False %}
         <form action="/app/kpi/report/{{ assigned_kpi.id }}/" method="post" name="form">
         {% csrf_token %}
         {{ form }}
         <input type="submit" value="Доложить">
         </form>
+            {% endif %}
         {% endif %}
-    {% if assigned_kpi.accepted == False %}
-        Задание отклонено.
-        {% endif %}
-{% endif %}
+Комментарии
+{% for x in comments_set %}
+{{ x.datetime }} {{ x.text }} {{ x.sender }} <br>
+{% endfor %}
+<form action="/app/kpi/send_comment/" method="post">
+    {% csrf_token %}
+{{ comment_form }}
+<input type="submit" value="Отправить">
+</form>
 </body>
 </html>
