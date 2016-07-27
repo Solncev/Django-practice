@@ -3,6 +3,9 @@ from __future__ import unicode_literals
 
 from django.contrib.auth.models import User
 from django.db import models
+from datetime import datetime
+from app.validators import validate_non_negative
+
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User)
@@ -53,6 +56,23 @@ class Department(models.Model):
         else:
             return superiors
 
+    def get_superiors_kpi(self, assigned_kpi):
+        superiors = self.get_superiors()
+        assigned_kpis = []
+        for x in superiors:
+            try:
+                get = AssignedKPI.objects.filter(department=x, kpi=assigned_kpi.kpi)
+            except AssignedKPI.DoesNotExist:
+                return assigned_kpis
+            i = 0
+            for get_kpi in get:
+                if assigned_kpi.deadline > get_kpi.deadline:
+                    i += 1
+                    if i == get.__sizeof__():
+                        return assigned_kpis
+                assigned_kpis.append(get_kpi)
+        return assigned_kpis
+
 
 class KPI(models.Model):
     name = models.CharField(max_length=50, unique=True)
@@ -66,10 +86,8 @@ class AssignedKPI(models.Model):
     kpi = models.ForeignKey('KPI', verbose_name="KPI")
     department = models.ForeignKey('Department')
 
-    amount = models.IntegerField(default=0)
-    complete = models.IntegerField(
-        blank=True, default=0,
-    )
+    amount = models.IntegerField(default=0, validators=[validate_non_negative], )
+    complete = models.IntegerField(blank=True, default=0)
     datetime = models.DateTimeField(null=True, blank=True)
     comment = models.TextField(blank=True, verbose_name="Комментарий")
     deadline = models.DateTimeField(null=True, blank=True)
@@ -84,6 +102,47 @@ class AssignedKPI(models.Model):
 
     def __str__(self):
         return self.kpi.name
+
+    def send_complete_to_superiors(self, value):
+        superiors_kpi = self.department.get_superiors_kpi(self)
+        if superiors_kpi != []:
+            for kpi in superiors_kpi:
+                kpi.complete = kpi.complete + value
+                kpi.save()
+
+    def maxdeadline(self):
+        try:
+            kpi_with_maxdeadline = AssignedKPI.objects.filter(deadline__lte=self.deadline, kpi=self.kpi,
+                                                              department=self.department).latest('deadline')
+        except AssignedKPI.DoesNotExist:
+            return None
+        return kpi_with_maxdeadline
+
+    def check_kpi_unique(self):
+        try:
+            AssignedKPI.objects.filter(kpi=self.kpi, department=self.department)
+        except AssignedKPI.DoesNotExist:
+            self.save()
+        kpi_with_maxdeadline = self.maxdeadline()
+        amount = self.amount
+        if kpi_with_maxdeadline is not None:
+            if kpi_with_maxdeadline.deadline == self.deadline:
+                kpi_with_maxdeadline.amount = self.amount + kpi_with_maxdeadline.amount
+                kpi_with_maxdeadline.save()
+                return False
+            if kpi_with_maxdeadline.deadline < self.deadline:
+                self.amount = kpi_with_maxdeadline.amount + self.amount
+                self.save()
+        else:
+            self.save()
+        try:
+            set = AssignedKPI.objects.filter(kpi=self.kpi, department=self.department, deadline__gt=self.deadline)
+        except AssignedKPI.DoesNotExist:
+            return True
+        for x in set:
+            x.amount = x.amount + amount
+            x.save()
+        return True
 
 
 class Position(models.Model):
@@ -104,6 +163,6 @@ class Comments(models.Model):
 
 
 class Budget(models.Model):
-    assigned_budget = models.IntegerField(default=0, verbose_name="Количество")
+    assigned_budget = models.IntegerField(default=0, verbose_name="", validators=[validate_non_negative])
     assigner = models.ForeignKey(User, null=True)
     department = models.OneToOneField('Department', null=True)

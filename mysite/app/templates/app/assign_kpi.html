@@ -70,13 +70,15 @@
                 <p>Крайний срок: {{ form.deadline }}</p>
                 <p>Описание: {{ form.comment }}</p>
                 <h4 class="errorlabel center-text">{{ form_error }}</h4>
-                <input type="submit" class="assign-button" value="Назначить">
+                <button class="assign-button">Назначить</button>
             </form>
         </div>
     </div>
 </div>
 
 <script>
+    $('#id_deadline').attr('placeholder', 'гггг-мм-дд чч:мм');
+
     $("#form_open_button").click(function(){
         $("#kpi-creation-form").show()
     });
@@ -84,6 +86,42 @@
     $('#settings').click(function () {
         alert("Для изменения настроек обратитесь к администратору сайта.");
     })
+
+
+    var re = /[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1]) (2[0-3]|[01][0-9]):[0-5][0-9]/;
+{#    var str =#}
+{#    var m;#}
+{##}
+{#    while ((m = re.exec(str)) != null) {#}
+{#    if (m.index === re.lastIndex) {#}
+{#    re.lastIndex++;#}
+{#    }#}
+{#    // View your result using the m-variable.#}
+{#    // eg m[0] etc.#}
+{#    }#}
+
+    $(".assign-button").click(function () {
+        var datetime = $('#id_deadline').val();
+        if (datetime.match(re)) {
+                $(".assign-button").click();
+        }
+        else {
+            alert("Enter valid Date and time (Example: 2018-09-29 13:45");
+            window.location.href = "/app/assign_kpi/{{ id_department }}/";
+        }
+    });
+
+{#    $("#id_deadline").keyup(function(event){#}
+{#        if(event.keyCode == 13){#}
+{#            var datetime = $('#id_deadline').val();#}
+{#            if (datetime.match(re)) {#}
+{#                $(".assign-button").click();#}
+{#            }#}
+{#            else {#}
+{#                alert("Enter valid Date and time (Example: 2018-09-29 13:45");#}
+{#            }#}
+{#        }#}
+{#    });#}
 </script>
 
 </body>

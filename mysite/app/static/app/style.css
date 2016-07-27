@@ -498,7 +498,7 @@ body {
 }
 
 #id_deadline {
-	width: 120px;
+	width: 150px;
 	margin: 5px 15px;
 	/*margin: 5px 5%;*/
 }
@@ -714,4 +714,12 @@ body {
 	width: 40%;
 	display: inline-block;
 	float: right;
+}
+
+.aboutpage {
+	border-radius: 3px;
+	padding: 10px;
+	width: 80%;
+	margin: 40px 10%;
+	border: 3px solid #0102c6;
 }

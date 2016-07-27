@@ -21,8 +21,14 @@
     </div>
 </nav>
 
+<div class="aboutpage" style="display: none">
+    <h4><span style="color: #0102c6">inUNI</span> - веб-приложение, которое позволит вам контролировать KPI и бюджет целого университета. Для подробной информации
+    о сервисе и о регистрации обращайтесь по адресу <span style="color: #00c50f">inuniproject@gmail.com</span></h4>
+</div>
+
 {% block login %}
 <div class="wrapper">
+
     <form action="/app/login/" method="post">
         {% csrf_token %}
         <h3 align="center">Вход</h3>
@@ -38,4 +44,10 @@
 </div>
 {% endblock %}
 </body>
+
+<script>
+    $('.about').click(function () {
+        $('.aboutpage').show();
+    })
+</script>
 </html>
