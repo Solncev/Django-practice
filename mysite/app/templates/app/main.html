@@ -39,7 +39,7 @@
         <hr>
         <div class="col-md-9 col-sm-10 col-lg-10">
             <div id="new-kpis">
-                {% for y in not_accepted_kpis %}<h4 id="kpi-name"><span><a href="/app/kpi/{{ y.id }}/" > {{ y.kpi.name }}</a></span>
+                {% for y in not_accepted_kpis %}<h4 id="kpi-name"><span> <a href="/app/kpi/{{ y.id }}/" >Новое: {{ y.kpi.name }}</a></span>
             </h4>{% endfor %}
             </div>
         <div id="kpis">
