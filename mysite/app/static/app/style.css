@@ -537,7 +537,7 @@ body {
 
 #id_budget {
 	width: 120px;
-	margin-left: 8px;
+	margin-left: 4px;
 }
 
 #id_report {
@@ -585,4 +585,13 @@ body {
 
 .cancel-button:hover {
 	background: linear-gradient(to top, #acabb0, #c2c1c6);
+}
+
+.done-line {
+	padding-top: 30px;
+}
+
+#circle {
+	width: 50%;
+	margin: 0 25%;
 }
