@@ -16,15 +16,18 @@
 <nav class="nv navbar navbar-default navbar-fixed-top">
     <div class="container">
         <div class="dropdown">
-            <button class="btn btn-default dropdown-toggle btn-blue" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"> <i class="fa fa-chevron-down fa-2x" aria-hidden="true"></i> </button>
+            <button class="btn btn-default dropdown-toggle btn-blue" type="button" id="dropdownMenu1"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                <i class="fa fa-chevron-down fa-2x" aria-hidden="true"></i> </button>
         <ul class="dropdown-menu moved-menu" aria-labelledby="dropdownMenu1">
             <li><a href="/app/personal_information/">Личная информация</a></li>
-            <li><a href="#">Настройки</a></li>
+            <li><a href="#" id="settings">Настройки</a></li>
             <li role="separator" class="divider"></li>
             <li><a href="/app/logout/">Выход</a></li>
         </ul>
         </div>
-        <h3 class="name1"><i class="fa fa-university" aria-hidden="true"></i> {{ profile.user.first_name }} {{ profile.user.last_name  }} &nbsp </h3>
+        <h3 class="name1"><i class="fa fa-university" aria-hidden="true"></i> {{ profile.user.first_name }}
+            {{ profile.user.last_name  }} &nbsp </h3>
     </div>
 </nav>
 
@@ -40,7 +43,8 @@
         <h3 class="center-text">Назначенные KPI</h3>
         <hr>
         <div class="kpi-info">
-            {% for y in department_set %}<p>{{ y.kpi.name }} {{ y.comment }} {{ y.amount }} </p>{% endfor %}
+            {% for y in department_set %}<p><a href="/app/kpi/{{ y.id }}/"> {{ y.kpi.name }} {{ y.comment }}
+                {{ y.amount }} </a></p>{% endfor %}
             {% for x in percent %}<p>{{ x }} %</p>{% endfor %}
         </div>
     </div>
@@ -50,20 +54,21 @@
         <hr>
         <div class="kpi-info">
             <h4 class="padded-label">{{ department.name }}</h4>
-            <h4 class="padded-label">Руководитель: {{ department.head.last_name }} {{ department.head.first_name }} {{ profile.third_name }}</h4>
+            <h4 class="padded-label">Руководитель: {{ department.head.last_name }} {{ department.head.first_name }}
+                {{ profile.third_name }}</h4>
             <form action="/app/assign_kpi/{{ id_department }}/" method="post" class="assign-kpi-form">
                 {% csrf_token %}
-                <p>KPI: {{ form.kpi }} <span class="create-kpi" id="form_open_button"><i class="fa fa-plus fa-lg" aria-hidden="true"></i></span> </p>
+                <p>KPI:  {{ form.kpi }} <span class="create-kpi" id="form_open_button">
+                    <i class="fa fa-plus fa-lg" aria-hidden="true"></i></span> </p>
                 <div id="kpi-creation-form">
-                    <form action="/app/create_kpi/{{ id_department }}/" method="post">
                     {% csrf_token %}
                     <p class="kpi-name">Название: {{ creation_form.name }}</p>
                     <input type="submit" class="create-kpi-button" value="Создать KPI">
-                </form>
                 </div>
+                {{ form.assigner }} {{ form.department }} {{ form.datetime }}
                 <p>Количество: {{ form.amount }}</p>
                 <p>Крайний срок: {{ form.deadline }}</p>
-                <p>Комментарий: {{ form.comment }}</p>
+                <p>Описание: {{ form.comment }}</p>
                 <h4 class="errorlabel center-text">{{ form_error }}</h4>
                 <input type="submit" class="assign-button" value="Назначить">
             </form>
@@ -75,6 +80,7 @@
     $("#form_open_button").click(function(){
         $("#kpi-creation-form").show()
     });
+
 </script>
 
 </body>

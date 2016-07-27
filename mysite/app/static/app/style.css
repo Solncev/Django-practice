@@ -19,6 +19,18 @@
 	.name1 {
 		font-size: 6vw;
 	}
+
+	.block {
+		margin: 0;
+	}
+
+	.percentage {
+		display: none;
+	}
+
+	#kpi-name {
+		font-size: 5vw;
+	}
 }
 
 @media (min-width: 320px) and (max-width: 767px) {
@@ -43,6 +55,19 @@
 		font-size: 22px;
 	}
 
+	.block {
+		margin: 0;
+
+	}
+
+	.percentage {
+		display: none;
+	}
+
+	#kpi-name {
+		font-size: 3.5vw;
+	}
+
 }
 
 @media (min-width: 768px) and (max-width: 991px) {
@@ -50,7 +75,6 @@
 		margin: 100px 15% 100px;
 		border-radius: 3px;
 	}
-
 
 	.tasks {
 		padding-top: 40px;
@@ -62,6 +86,12 @@
 
 	.giveTasks {
 		margin-top: 40px;
+		border-radius: 3px;
+	}
+
+	.block {
+		border: 3px solid grey;
+		margin: 20px 15%;
 		border-radius: 3px;
 	}
 }
@@ -81,6 +111,12 @@
 	}
 
 	.giveTasks {
+		border-radius: 3px;
+	}
+
+	.block {
+		border: 3px solid grey;
+		margin: 40px 20%;
 		border-radius: 3px;
 	}
 }
@@ -103,6 +139,12 @@
 	.giveTasks {
 		border-radius: 3px;
 	}
+
+	.block {
+		border: 3px solid grey;
+		margin: 50px 25%;
+		border-radius: 3px;
+	}
 }
 
 @media (min-width: 1500px) {
@@ -123,6 +165,12 @@
 	.giveTasks {
 		border-radius: 3px;
 	}
+
+	.block {
+		border: 3px solid grey;
+		margin: 70px 35%;
+		border-radius: 3px;
+	}
 }
 
 /*.header {*/
@@ -131,6 +179,15 @@
 	/*height: 60px;*/
 
 /*}*/
+
+a {
+	color: rgba(0, 0, 0, 0.75)
+}
+
+a:hover {
+	color: rgba(82, 80, 93, 0.57);
+	text-decoration: none;
+}
 
 .name {
 	display: inline;
@@ -411,4 +468,130 @@ body {
 
 .assign-button:hover {
 	background: linear-gradient(to top, #0000dd, #0044ff);
+}
+
+.block {
+}
+
+.inside {
+	margin: 30px 5%;
+	border: 1px solid red;
+}
+
+.task-name {
+	width: 75%;
+	float: left;
+}
+
+.task-complete {
+	width: 20%;
+	float: right;
+}
+
+.percentage {
+	float: right;
+}
+
+#kpi-name {
+	white-space: nowrap;
+	overflow: hidden;
+	width: 100%;
+	text-overflow: ellipsis;
+}
+
+.accept {
+	background: linear-gradient(to top, #00b10f, rgba(16, 200, 0, 0.85));
+	border-radius: 3px;
+	color: white;
+	border: 2px solid #019600;
+	float: left;
+	height: 40px;
+	width: 30%;
+	padding: 5px;
+	margin: 30px 0;
+}
+
+.accept:hover{
+	background: linear-gradient(to top, #00c50f, rgba(16, 222, 0, 0.85));
+}
+
+.reject {
+	background: linear-gradient(to top, rgba(202, 0, 1, 0.85), rgba(236, 21, 18, 0.85));
+	border-radius: 3px;
+	color: white;
+	border: 2px solid #b40000;
+	float: right;
+	height: 40px;
+	width: 30%;
+	padding: 5px;
+	margin: 30px 5%;
+}
+
+.reject:hover {
+	background: linear-gradient(to top, rgba(223, 0, 1, 0.85), rgba(255, 0, 4, 0.85));
+}
+
+#id_complete {
+	width: 120px;
+}
+
+#id_budget {
+	width: 120px;
+	margin-left: 4px;
+}
+
+#id_report {
+	margin: 5px;
+	width: 70%;
+}
+
+#id_text {
+	width: 95%;
+	max-width: 95%;
+	height: 40px;
+	margin: 3% 0;
+}
+
+.comments {
+	max-height: 700px;
+	overflow: scroll;
+}
+
+.send-button {
+	display: none;
+	border: 1px solid rgb(0, 9, 129);
+	background: linear-gradient(to top, rgb(0, 9, 133), rgba(0, 9, 199, 0.85));
+	color: white;
+	margin: 0 0 10px 0;
+	padding: 5px;
+	width: 120px;
+	border-radius: 3px;
+}
+
+.send-button:hover {
+	background: linear-gradient(to top, rgb(5, 0, 193), rgb(26, 47, 255));
+}
+
+.cancel-button {
+	display: none;
+	border: 1px solid #636267;
+	background: linear-gradient(to top, #929196, #a2a1a6);
+	margin: 0 0 10px 3%;
+	color: white;
+	padding: 8px;
+	width: 130px;
+	border-radius: 3px;
+}
+
+.cancel-button:hover {
+	background: linear-gradient(to top, #acabb0, #c2c1c6);
+}
+
+.done-line {
+	padding-top: 30px;
+}
+
+#circle {
+	width: 50%;
+	margin: 0 25%;
 }

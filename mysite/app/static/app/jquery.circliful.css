@@ -1,0 +1,87 @@
+/*.circle-container {*/
+  /*font-family: 'Helvetica';*/
+  /*display: block;*/
+  /*float: left;*/
+  /*margin-right: 55px;*/
+  /*margin-bottom: 45px;*/
+/*}*/
+
+/*.circle-container h3 {*/
+  /*display: block;*/
+  /*text-align: center;*/
+  /*font-size: 2.25em;*/
+  /*line-height: 1.4em;*/
+  /*color: #363636;*/
+  /*text-shadow: 1px 1px 0 #fff;*/
+/*}*/
+
+/*.circliful {*/
+    /*position: relative; */
+/*}*/
+
+/*.circle-text, .circle-info, .circle-text-half, .circle-info-half {*/
+    /*width: 100%;*/
+    /*position: absolute;*/
+    /*text-align: center;*/
+    /*display: inline-block;*/
+/*}*/
+
+/*.circle-info, .circle-info-half {*/
+  /*color: #999;*/
+/*}*/
+
+/*.circliful .fa {*/
+  /*margin: -10px 3px 0 3px;*/
+  /*position: relative;*/
+  /*bottom: 4px;*/
+/*}*/
+
+
+/* Import the Google Font 'Lato' */
+@import url(http://fonts.googleapis.com/css?family=Lato:300,400,700);
+
+/* Container styles */
+body {
+    background-color: #fff;
+    color: #333;
+    font-family: 'Lato', sans-serif;
+}
+
+.outer {
+    fill: transparent;
+    stroke: #333;
+    stroke-width: 19.8;
+    stroke-dasharray: 534;
+    transition: stroke-dashoffset 1s;
+    -webkit-animation-play-state: running;
+    /* firefox bug fix - won't rotate at 90deg angles */
+    -moz-transform: rotate(-89deg) translateX(-190px);
+}
+
+/* full circle 25 empty 534 */
+.inner {
+    fill: transparent;
+    stroke: orange;
+    stroke-width: 20;
+    stroke-dasharray: 534;
+    transition: stroke-dashoffset 1s;
+    -webkit-animation-play-state: running;
+    /* firefox bug fix - won't rotate at 90deg angles */
+    -moz-transform: rotate(-89deg) translateX(-190px);
+    stroke-dashoffset: 0;
+}
+
+.circliful {
+    overflow: visible !important;
+
+}
+
+.svg-container {
+    width: 100%;
+    margin: 0 auto;
+    overflow: visible;
+}
+
+svg .icon {
+    font-family: FontAwesome;
+}

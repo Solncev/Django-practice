@@ -17,5 +17,5 @@ urlpatterns = [
     url(r'^kpi/(?P<flag>(accept|reject))/(?P<id_assigned_kpi>\d+)/$', views.accept, name='accept'),
     url(r'^kpi/report/(?P<id_assigned_kpi>\d+)/$', views.report, name='report'),
     url(r'^budget/(?P<id_department>\d+)/$', views.budget, name='budget'),
-
+    url(r'^kpi/send_comment/$', views.send_comment, name='send_comment'),
 ]
