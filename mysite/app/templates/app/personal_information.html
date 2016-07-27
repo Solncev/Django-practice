@@ -21,10 +21,10 @@
                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                 <i class="fa fa-chevron-down fa-2x" aria-hidden="true"></i> </button>
         <ul class="dropdown-menu moved-menu" aria-labelledby="dropdownMenu1">
-            <li><a href="/app/personal_information/">Личная информация</a></li>
-            <li><a href="#" id="settings">Настройки</a></li>
+            <li><a href="/app/personal_information/"><i class="fa fa-info-circle fa-lg" aria-hidden="true"></i> Личная информация</a></li>
+            <li><a href="#" id="settings"><i class="fa fa-cog fa-lg" aria-hidden="true"></i> Настройки</a></li>
             <li role="separator" class="divider"></li>
-            <li><a href="/app/logout/">Выход</a></li>
+            <li><a href="/app/logout/"><i class="fa fa-sign-out fa-lg" aria-hidden="true"></i> Выход</a></li>
         </ul>
         </div>
         <h3 class="name1"><i class="fa fa-university" aria-hidden="true"></i> {{ personal_information.user.first_name }}
@@ -38,15 +38,13 @@
   </div>
 </div>
 
-<div class="row">
-    <div class="col-xs-10 col-xs-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
-        <h4 class="info-label">Username: {{ personal_information.user.username }}</h4>
-        <h4 class="info-label">Имя: {{ personal_information.user.first_name }}</h4>
-        <h4 class="info-label">Фамилия:{{ personal_information.user.last_name }}</h4>
-        <h4 class="info-label">Отчество:{{ personal_information.third_name }}</h4>
-        <h4 class="info-label">Направление: {{ personal_information.department }}</h4>
-        <h4 class="info-label">Должность: {{ personal_information.position }}</h4>
-    </div>
+<div class="center-block">
+    <h4 class="info-label">Username: {{ personal_information.user.username }}</h4>
+    <h4 class="info-label">Имя: {{ personal_information.user.first_name }}</h4>
+    <h4 class="info-label">Фамилия:{{ personal_information.user.last_name }}</h4>
+    <h4 class="info-label">Отчество:{{ personal_information.third_name }}</h4>
+    <h4 class="info-label">Направление: {{ personal_information.department }}</h4>
+    <h4 class="info-label">Должность: {{ personal_information.position }}</h4>
 </div>
 
 {% else %}

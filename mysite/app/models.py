@@ -68,8 +68,7 @@ class AssignedKPI(models.Model):
 
     amount = models.IntegerField(default=0)
     complete = models.IntegerField(
-        blank=True, default=0
-
+        blank=True, default=0,
     )
     datetime = models.DateTimeField(null=True, blank=True)
     comment = models.TextField(blank=True, verbose_name="Комментарий")

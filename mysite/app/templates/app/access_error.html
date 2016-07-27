@@ -2,17 +2,50 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>inUNI</title>
+	<title>KPI отклонен</title>
     {% load staticfiles %}
     <!-- Bootstrap -->
-    <link href="../../static/app/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="{% static 'app/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" media="screen">
     <link rel="stylesheet" href="{% static 'app/style.css' %}">
     <script type="text/javascript" src="{% static 'app/bootstrap/js/jquery-3.1.0.min.js' %}"></script>
     <script src="http://code.jquery.com/jquery-latest.js"></script>
-    <script src="../../static/app/bootstrap/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="../../static/app/font-awesome/css/font-awesome.min.css">
+    <script src="{% static 'app/bootstrap/js/bootstrap.min.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'app/font-awesome/css/font-awesome.min.css' %}">
 </head>
 <body>
-{{ access_error }}
+<nav class="nv navbar navbar-default navbar-fixed-top">
+    <div class="container">
+        <div class="dropdown">
+            <button class="btn btn-default dropdown-toggle btn-blue" type="button" id="dropdownMenu1"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                <i class="fa fa-chevron-down fa-2x" aria-hidden="true"></i> </button>
+        <ul class="dropdown-menu moved-menu" aria-labelledby="dropdownMenu1">
+            <li><a href="/app/personal_information/"><i class="fa fa-info-circle fa-lg" aria-hidden="true"></i> Личная информация</a></li>
+            <li><a href="#" id="settings"><i class="fa fa-cog fa-lg" aria-hidden="true"></i> Настройки</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="/app/logout/"><i class="fa fa-sign-out fa-lg" aria-hidden="true"></i> Выход</a></li>
+        </ul>
+        </div>
+        <h3 class="name1"><i class="fa fa-university" aria-hidden="true"></i> {{ profile.user.first_name }}
+            {{ profile.user.last_name  }} &nbsp </h3>
+    </div>
+</nav>
+
+<div class="nv-back divide-nav">
+  <div class="back-link container">
+    <h4 class="divide-text"><a href="/app/main/"><i class="fa fa-chevron-left" aria-hidden="true"></i>  Назад</a></h4>
+  </div>
+</div>
+
+<h3 class="center-text">{{ access_error }}</h3>
+
+
+
+<script>
+    $('#settings').click(function () {
+        alert("Для изменения настроек обратитесь к администратору сайта.");
+    })
+
+</script>
 </body>
 </html>
