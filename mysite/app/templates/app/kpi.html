@@ -2,46 +2,121 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>inUNI</title>
-    {% load staticfiles %}
-    <!-- Bootstrap -->
-    <link href="../../static/app/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
-    <link rel="stylesheet" href="{% static 'app/style.css' %}">
-    <script type="text/javascript" src="{% static 'app/bootstrap/js/jquery-3.1.0.min.js' %}"></script>
-    <script src="http://code.jquery.com/jquery-latest.js"></script>
-    <script src="../../static/app/bootstrap/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="../../static/app/font-awesome/css/font-awesome.min.css">
+	<title>KPI</title>
+	{% load staticfiles %}
+	<!-- Bootstrap -->
+	<link href="{% static 'app/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" media="screen">
+	<link rel="stylesheet" href="{% static 'app/style.css' %}">
+	<script type="text/javascript" src="{% static 'app/bootstrap/js/jquery-3.1.0.min.js' %}"></script>
+	<script src="http://code.jquery.com/jquery-latest.js"></script>
+	<script src="{% static 'app/bootstrap/js/bootstrap.min.js' %}"></script>
+	<link rel="stylesheet" href="{% static 'app/font-awesome/css/font-awesome.min.css' %}">
 </head>
 <body>
-{{ assigned_kpi.kpi.name }}<br>
-Описание задания:<br>{{ assigned_kpi.comment }}<br>
-Требуемое количество: {{ assigned_kpi.amount }}<br>
-Крайний срок: {{ assigned_kpi.deadline }}<br>
-Процент выполнения: {{ percent }} % <br>
-    {{ access_error }}
-    {% if assigned_kpi.accepted == None %}
-        {% if access_flag == False %}
-    <a href="/app/kpi/accept/{{ assigned_kpi.id }}"><li>Принять</li></a>
-    <a href="/app/kpi/reject/{{ assigned_kpi.id }}"><li>Отклонить</li></a>
+<nav class="nv navbar navbar-default navbar-fixed-top">
+	<div class="container">
+		<div class="dropdown">
+			<button class="btn btn-default dropdown-toggle btn-blue" type="button" id="dropdownMenu1"
+					data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+				<i class="fa fa-chevron-down fa-2x" aria-hidden="true"></i> </button>
+		<ul class="dropdown-menu moved-menu" aria-labelledby="dropdownMenu1">
+			<li><a href="/app/personal_information/">Личная информация</a></li>
+			<li><a href="#" id="settings">Настройки</a></li>
+			<li role="separator" class="divider"></li>
+			<li><a href="/app/logout/">Выход</a></li>
+		</ul>
+		</div>
+		<h3 class="name1"><i class="fa fa-university" aria-hidden="true"></i> {{ profile.user.first_name }}
+			{{ profile.user.last_name  }} &nbsp </h3>
+	</div>
+</nav>
+
+<div class="nv-back divide-nav">
+  <div class="back-link container">
+	<h4 class="divide-text"><a href="/app/main/"><i class="fa fa-chevron-left" aria-hidden="true"></i>  Назад</a></h4>
+  </div>
+</div>
+
+
+<div class="tasks">
+    <div class="col-lg-4 col-lg-offset-1 col-md-4 col-md-offset-1 col-sm-10 col-sm-offset-1 asg-kpi">
+        <h3 class="center-text">{{ assigned_kpi.kpi.name }}</h3>
+        <hr>
+        <div class="kpi-info">
+            <h4 style="word-break: break-all">Количество: {{ assigned_kpi.amount }}</h4>
+            <h4 style="word-break: break-all">Описание: {{ assigned_kpi.comment }}</h4>
+		    <h4 style="word-break: break-all">Крайний срок: {{ assigned_kpi.deadline }}</h4>
+            <h4 style="word-break: break-all">Выполнено: {{ percent }} %</h4>
+		    <h4 style="word-break: break-all">Бюджет {{ assigned_kpi.budget }}</h4>
+            {{ access_error }}
+            {% if assigned_kpi.accepted == None %}
+                {% if access_flag == False %}
+                <a href="/app/kpi/accept/{{ assigned_kpi.id }}/"><button class="accept"><i class="fa fa-check fa-lg" aria-hidden="true">
+                </i></button></a>
+                <a href="/app/kpi/reject/{{ assigned_kpi.id }}/"><button class="reject"><i class="fa fa-times fa-lg" aria-hidden="true">
+                </i></button></a>
+                {% endif %}
             {% endif %}
-        {% endif %}
-    {% if assigned_kpi.accepted == True %}
-        {% if access_flag == False %}
-        <form action="/app/kpi/report/{{ assigned_kpi.id }}/" method="post" name="form">
-        {% csrf_token %}
-        {{ form }}
-        <input type="submit" value="Доложить">
-        </form>
+            {% if assigned_kpi.accepted == True %}
+                {% if access_flag == False %}
+                <form action="/app/kpi/report/{{ assigned_kpi.id }}/" method="post" name="form">
+                {% csrf_token %}
+                    <hr>
+                    <h4>Выполнено: {{ form.complete }}</h4>
+                    <h4>Потрачено: {{ form.budget }} <i class="fa fa-rub" aria-hidden="true"></i></h4>
+                    <h4>Отчет: {{ form.report }}</h4>
+                <input type="submit" class="assign-button" value="Сообщить">
+                </form>
+                {% endif %}
             {% endif %}
-        {% endif %}
-Комментарии
-{% for x in comments_set %}
-{{ x.datetime }} {{ x.text }} {{ x.sender }} <br>
-{% endfor %}
-<form action="/app/kpi/send_comment/" method="post">
-    {% csrf_token %}
-{{ comment_form }}
-<input type="submit" value="Отправить">
-</form>
+        </div>
+    <div style="clear:both;"></div>
+    </div>
+
+    <div class="col-lg-5 col-lg-offset-1 col-md-5 col-md-offset-1 col-sm-10 col-sm-offset-1 asg-kpi comments"
+    id="comments">
+        <h3 class="center-text">Комментарии</h3>
+        <hr>
+        <div class="kpi-info">
+            {% for x in comments_set %}
+            <h4>{{ x.sender }}: </h4>
+                <p style="word-break: break-all">{{ x.text }}</p>
+                <h6>{{ x.datetime }}</h6>
+                <hr>
+
+            {% endfor %}
+            <form action="/app/kpi/send_comment/" method="post">
+                {% csrf_token %}
+                {{ comment_form }}
+                <button class="send-button" type="submit">Отправить</button>
+                <span class="cancel-button" id="cancelbtn"> Отменить </span>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    $("#id_text").attr("placeholder", "Напишите комментарий");
+    var objDiv = document.getElementById("comments");
+    objDiv.scrollTop = objDiv.scrollHeight;
+
+    $('#id_text').click(function () {
+        $('#id_text').css('height', '80px');
+        var objDiv = document.getElementById("comments");
+        objDiv.scrollTop = objDiv.scrollHeight;
+        $('.send-button').show();
+        $('.cancel-button').show();
+    })
+
+    $('#cancelbtn').click(function () {
+        $('#id_text').css('height', '40px');
+        $('#id_text').val("");
+        $('.send-button').hide();
+        $('.cancel-button').hide();
+    })
+
+    $('#settings').click(function () {
+        alert("Для изменения настроек обратитесь к администратору сайта.");
+    })
+</script>
 </body>
 </html>

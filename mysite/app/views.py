@@ -6,8 +6,8 @@ from django.shortcuts import render, redirect, render_to_response
 # Create your views here.
 from django.template.context_processors import csrf
 from django.contrib import auth
-from app.models import UserProfile, AssignedKPI, Department, KPI, Comments
-from app.templates.app.forms import AssignKPIform, KPICreationForm, KPIReportForm, CommentCreationForm
+from app.models import UserProfile, AssignedKPI, Department, KPI, Comments, Budget
+from app.templates.app.forms import AssignKPIform, KPICreationForm, KPIReportForm, BudgetForm, CommentCreationForm
 
 
 def login(request):
@@ -37,18 +37,17 @@ def main(request):
     profile = UserProfile.objects.get(user=auth.get_user(request))
     set = Department.objects.filter(superior=profile.department)
     # Получаем все AssignesKPI, назначенные структурному подразделению, которому принадлежит данный пользователь
-    accepted_kpis = AssignedKPI.objects.filter(department=profile.department, accepted=True)
-    not_accepted_kpis = AssignedKPI.objects.filter(department=profile.department, accepted=None)
+    accepted_kpis = AssignedKPI.objects.filter(department=profile.department, accepted=True, deadline__gt=datetime.now())
+    not_accepted_kpis = AssignedKPI.objects.filter(department=profile.department, accepted=None, deadline__gt=datetime.now())
     # Высчитываем процент выполнения KPI
     percent = []
     for x in accepted_kpis:
         if x.complete is not 0:
             percent.append(round(x.to_percent(), 1))
         else:
-
             percent.append(0)
-    return render_to_response('app/main.html', {'profile': profile,'set':set, 'accepted_kpis':accepted_kpis, 'percent':percent, 'not_accepted_kpis': not_accepted_kpis})
-
+    return render_to_response('app/main.html', {'profile': profile,'set':set, 'accepted_kpis':accepted_kpis,
+                                                'percent':percent, 'not_accepted_kpis': not_accepted_kpis})
 
 
 # Без значения id_department в url в это представление попасть НЕЛЬЗЯ
@@ -57,7 +56,6 @@ def assign_kpi(request, id_department):
         return redirect('login')
     args = {}
     args.update(csrf(request))
-    id_department = id_department
     try:
         department = Department.objects.get(id=id_department)
     except Department.DoesNotExist:
@@ -69,7 +67,8 @@ def assign_kpi(request, id_department):
         return render(request, 'app/access_error.html', {'access_error':access_error})
     args['department'] = department
     args['profile'] = profile
-    assigned_kpi = AssignedKPI(assigner=request.user, datetime=datetime.now(), department=Department.objects.get(id=id_department))
+    assigned_kpi = AssignedKPI(assigner=request.user, datetime=datetime.now(),
+                               department=Department.objects.get(id=id_department))
 
     # Форма для назначения KPI, instance - установление дефолтных значений обязательных полей
 
@@ -80,7 +79,7 @@ def assign_kpi(request, id_department):
     args['id_department'] = id_department
 
     # Получаем все AssignedKPI, назначенные выбранному структурному подразделению
-    args['department_set'] = AssignedKPI.objects.filter(department=args['department'], assigner=request.user)
+    args['department_set'] = AssignedKPI.objects.filter(department=args['department'], assigner=request.user, deadline__gt=datetime.now())
 
     # Высчитываем процент выполнения KPI
     percent = []
@@ -96,13 +95,19 @@ def assign_kpi(request, id_department):
         creation_form = KPICreationForm(request.POST)
         args['form'] = AssignKPIform(instance=assigned_kpi)
         name = request.POST.get('name')
-        if KPI.objects.get(name=name) is None:
+        try:
+            KPI.objects.get(name=name)
+        except KPI.DoesNotExist:
             if creation_form.is_valid():
                 creation_form.save()
                 args['creation_form'] = KPICreationForm()
                 return render(request,'app/assign_kpi.html', args)
         if form.is_valid():
-            form.save()
+            assigned_kpi.deadline = form.cleaned_data.get('deadline')
+            assigned_kpi.amount = form.cleaned_data.get('amount')
+            assigned_kpi.comment = form.cleaned_data.get('comment')
+            assigned_kpi.kpi = form.cleaned_data.get('kpi')
+            assigned_kpi.check_kpi_unique()
             return redirect('main')
         else:
             args['form_error'] = "Данные введены неверно."
@@ -146,6 +151,7 @@ def accept(request, flag, id_assigned_kpi):
     assigned_kpi.save()
     return redirect('main')
 
+
 def report(request, id_assigned_kpi):
     if not request.user.is_authenticated():
         return redirect('login')
@@ -163,9 +169,13 @@ def report(request, id_assigned_kpi):
         return render(request, 'app/access_error.html', {'access_error': access_error})
     if request.method == "POST":
         form = KPIReportForm(request.POST)
-        if form.is_valid:
-            assigned_kpi.budget = request.POST.get('budget', '')
-            assigned_kpi.complete = request.POST.get('complete', '')
+        if form.is_valid():
+            assigned_kpi.budget = assigned_kpi.budget + form.cleaned_data.get('budget')
+            if assigned_kpi.budget > profile.department.budget.assigned_budget:
+                access_error = "Вы не можете превысить бюджет своего структурного подразделения."
+                return render(request, 'app/access_error.html', {'access_error': access_error})
+            assigned_kpi.complete =assigned_kpi.complete + form.cleaned_data.get('complete')
+            assigned_kpi.send_complete_to_superiors(form.cleaned_data.get('complete'))
             assigned_kpi.report = request.POST.get('report', '')
             assigned_kpi.save()
             return redirect('main')
@@ -194,7 +204,6 @@ def kpi(request, id_assigned_kpi):
         args['profile'] = profile
         args['assigned_kpi'] = assigned_kpi
         args['percent'] = assigned_kpi.to_percent()
-        args['access_flag'] = True
         comment = Comments(sender=request.user, kpi=assigned_kpi, datetime=datetime.now())
         args['comment_form'] = CommentCreationForm(instance=comment)
         args['comments_set'] = Comments.objects.filter(kpi=assigned_kpi)
@@ -211,6 +220,7 @@ def kpi(request, id_assigned_kpi):
         access_error = "Вы не имеете доступа к данному KPI"
         return render(request, 'app/access_error.html', {'access_error': access_error})
 
+
 def send_comment(request):
     if request.method == "POST":
         form = CommentCreationForm(request.POST)
@@ -220,9 +230,42 @@ def send_comment(request):
     else:
         return redirect('main')
 
+
 def redirectpage(requet):
     if not requet.user.is_authenticated():
         return redirect('/app/login/')
     else:
         return redirect('/app/main/')
 
+
+def budget(request, id_department):
+    if not request.user.is_authenticated():
+        return redirect('login')
+    args = {}
+    args.update(csrf(request))
+    try:
+        department = Department.objects.get(id=id_department)
+    except Department.DoesNotExist:
+        access_error = "Данного структурного подразделения не существует"
+        return render(request, 'app/access_error.html', {'access_error':access_error})
+    profile = UserProfile.objects.get(user=request.user)
+    if department.superior != profile.department:
+        access_error = "Вы не можете выделять средства этому структурному подразделению."
+        return render(request, 'app/access_error.html', {'access_error':access_error})
+    args['department'] = department
+    args['profile'] = profile
+    budget = Budget(assigner=request.user,  department=Department.objects.get(id=id_department))
+
+    args['form'] = BudgetForm(instance=budget)
+
+    if request.method == "POST":
+        form = BudgetForm(request.POST)
+        args['form'] = BudgetForm(instance=budget)
+        if form.is_valid():
+            form.save()
+            return redirect('main')
+        else:
+            args['form_error'] = "Данные введены неверно."
+            return render(request, 'app/budget.html', args)
+    else:
+        return render(request, 'app/budget.html', args)

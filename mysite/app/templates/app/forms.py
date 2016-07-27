@@ -1,6 +1,8 @@
 from django.forms import forms, ModelForm, BaseModelFormSet, HiddenInput
 from django import forms
-from app.models import AssignedKPI, KPI, Department, Comments
+
+from app.models import AssignedKPI, KPI, Department, Budget, Comments
+from app.validators import validate_non_negative
 
 
 class AssignKPIform(ModelForm):
@@ -18,19 +20,31 @@ class KPICreationForm(ModelForm):
         model = KPI
         fields = ['name']
 
+
 class KPIReportForm(forms.Form):
-    complete = forms.FloatField(max_value=1000000000000000)
-    budget = forms.IntegerField(max_value=1000000000000000)
+    complete = forms.IntegerField(max_value=1000000000000000, validators=[validate_non_negative,])
+    budget = forms.IntegerField(max_value=1000000000000000, validators=[validate_non_negative],)
     report = forms.CharField(max_length=100)
+
 
 class CommentCreationForm(ModelForm):
     class Meta:
-        model=Comments
+        model = Comments
         fields = {
-            'text', 'sender', 'kpi', 'datetime'
+            'text', 'sender', 'kpi', 'datetime',
         }
         widgets = {
             'sender': HiddenInput,
             'kpi': HiddenInput,
             'datetime': HiddenInput,
+        }
+
+
+class BudgetForm(ModelForm):
+    class Meta:
+        model = Budget
+        fields = {'assigned_budget', 'assigner', 'department'}
+        widgets = {
+            'assigner': HiddenInput,
+            'department': HiddenInput,
         }

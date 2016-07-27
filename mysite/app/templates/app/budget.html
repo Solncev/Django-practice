@@ -1,19 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<title>Личная информация</title>
+    <meta charset="UTF-8">
+    <title>Бюджет</title>
     {% load staticfiles %}
     <!-- Bootstrap -->
-    <link href="../../static/app/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="{% static 'app/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" media="screen">
     <link rel="stylesheet" href="{% static 'app/style.css' %}">
     <script type="text/javascript" src="{% static 'app/bootstrap/js/jquery-3.1.0.min.js' %}"></script>
     <script src="http://code.jquery.com/jquery-latest.js"></script>
-    <script src="../../static/app/bootstrap/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="../../static/app/font-awesome/css/font-awesome.min.css">
+    <script src="{% static 'app/bootstrap/js/bootstrap.min.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'app/font-awesome/css/font-awesome.min.css' %}">
 </head>
 <body>
-{% if personal_information %}
 <nav class="nv navbar navbar-default navbar-fixed-top">
     <div class="container">
         <div class="dropdown">
@@ -27,8 +26,8 @@
             <li><a href="/app/logout/">Выход</a></li>
         </ul>
         </div>
-        <h3 class="name1"><i class="fa fa-university" aria-hidden="true"></i> {{ personal_information.user.first_name }}
-            {{ personal_information.user.last_name }} &nbsp </h3>
+        <h3 class="name1"><i class="fa fa-university" aria-hidden="true"></i> {{ profile.user.first_name }}
+            {{ profile.user.last_name  }} &nbsp </h3>
     </div>
 </nav>
 
@@ -40,17 +39,16 @@
 
 <div class="row">
     <div class="col-xs-10 col-xs-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
-        <h4 class="info-label">Username: {{ personal_information.user.username }}</h4>
-        <h4 class="info-label">Имя: {{ personal_information.user.first_name }}</h4>
-        <h4 class="info-label">Фамилия:{{ personal_information.user.last_name }}</h4>
-        <h4 class="info-label">Отчество:{{ personal_information.third_name }}</h4>
-        <h4 class="info-label">Направление: {{ personal_information.department }}</h4>
-        <h4 class="info-label">Должность: {{ personal_information.position }}</h4>
+    {{ department.name }} <br>
+    Руководитель {{ department.head.first_name }} {{ department.head.last_name }} {{ profile.third_name }}
+    <form action="/app/budget/{{ department.id }}/" method="post">
+        {% csrf_token %}
+        {{ form  }}
+        <input type="submit" class="login-button" value="Выделить средства">
+        {{ form_error }}
+    </form>
     </div>
 </div>
-
-{% else %}
-{% endif %}
 <script>
     $('#settings').click(function () {
         alert("Для изменения настроек обратитесь к администратору сайта.");
