@@ -73,9 +73,15 @@
     $('#settings').click(function () {
         alert("Для изменения настроек обратитесь к администратору сайта.");
     });
-
     var newkpih = $('#new-kpis').height() + 10;
-    $('.percentage').css('padding-top', newkpih);
+
+    if (newkpih > 10) {
+        $('.percentage').css('padding-top', newkpih);
+    }
+    else {
+
+    }
+
 </script>
 
 </body>
