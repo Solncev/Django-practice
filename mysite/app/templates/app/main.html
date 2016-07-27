@@ -22,10 +22,10 @@
                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                 <i class="fa fa-chevron-down fa-2x" aria-hidden="true"></i> </button>
         <ul class="dropdown-menu moved-menu" aria-labelledby="dropdownMenu1">
-            <li><a href="/app/personal_information/">Личная информация</a></li>
-            <li><a href="#" id="settings">Настройки</a></li>
+            <li><a href="/app/personal_information/"><i class="fa fa-info-circle fa-lg" aria-hidden="true"></i> Личная информация</a></li>
+            <li><a href="#" id="settings"><i class="fa fa-cog fa-lg" aria-hidden="true"></i> Настройки</a></li>
             <li role="separator" class="divider"></li>
-            <li><a href="/app/logout/">Выход</a></li>
+            <li><a href="/app/logout/"><i class="fa fa-sign-out fa-lg" aria-hidden="true"></i> Выход</a></li>
         </ul>
         </div>
         <h3 class="name1"><i class="fa fa-university" aria-hidden="true"></i> {{ profile.user.first_name }}
@@ -37,9 +37,9 @@
     <div class="col-lg-5 col-lg-offset-1 col-md-5 col-md-offset-1 col-sm-10 col-sm-offset-1 myTasks">
         <h3 class="center-text">Назначенные мне KPI</h3>
         <hr>
-        <div class="col-md-9 col-sm-10">
+        <div class="col-md-9 col-sm-10 col-lg-10">
             <div id="new-kpis">
-                {% for y in not_accepted_kpis %}<h4 id="kpi-name"><span><a href="/app/kpi/{{ y.id }}/" > {{ y.kpi.name }}</a></span>
+                {% for y in not_accepted_kpis %}<h4 id="kpi-name"><span> <a href="/app/kpi/{{ y.id }}/" >Новое: {{ y.kpi.name }}</a></span>
             </h4>{% endfor %}
             </div>
         <div id="kpis">
@@ -49,21 +49,24 @@
 
         </div>
 
-        <div class="col-md-3 col-sm-2 percentage">
-            {% for x in percent %}<h4>{{ x }} %</h4>{% endfor %}
+        <div class="col-md-3 col-sm-2 col-lg-2 percentage">
+            {% for x in percent %}<h4>{{ x }}%</h4>{% endfor %}
         </div>
     </div>
 
     <div class="col-lg-4 col-lg-offset-1 col-md-4 col-md-offset-1 col-sm-10 col-sm-offset-1 giveTasks">
-        <h3 class="center-text">Назначить KPI</h3>
+        <h3 class="center-text">Подчиненные</h3>
         <hr>
         {% for x in set %}
-            <a style="display: block" href="/app/assign_kpi/{{ x.id }}/"><h3> {{ x.name }} </h3>
-                <p><i class="pointer fa fa-chevron-right fa-2x" aria-hidden="true"></i></p>
-            <h5 class="sub-type" style="padding-top: 20px">Руководитель: {{ x.head.first_name}} {{ x.head.last_name }} </h5>
-            </a>
-{#            todo#}
-            <a href="/app/budget/{{ x.id }}/">Распределить бюджет</a>
+            <div class="left">
+                <h3> {{ x.name }} </h3>
+                Руководитель: {{ x.head.first_name}} {{ x.head.last_name }}
+            </div>
+            <div class="right">
+                <a href="/app/assign_kpi/{{ x.id }}/"><button style="vertical-align: middle" class="kpi-btn"><span>KPI</span></button></a>
+                <a href="/app/budget/{{ x.id }}/"><button style="vertical-align: middle" class="kpi-btn"><span>Бюджет</span></button></a>
+            </div>
+            <div style="clear: both"></div>
             <hr>
         {% endfor %}
 

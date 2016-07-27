@@ -37,8 +37,10 @@ def main(request):
     profile = UserProfile.objects.get(user=auth.get_user(request))
     set = Department.objects.filter(superior=profile.department)
     # Получаем все AssignesKPI, назначенные структурному подразделению, которому принадлежит данный пользователь
-    accepted_kpis = AssignedKPI.objects.filter(department=profile.department, accepted=True)
-    not_accepted_kpis = AssignedKPI.objects.filter(department=profile.department, accepted=None)
+    accepted_kpis = AssignedKPI.objects.filter(department=profile.department, accepted=True,
+                                               deadline__gt=datetime.now())
+    not_accepted_kpis = AssignedKPI.objects.filter(department=profile.department, accepted=None,
+                                                   deadline__gt=datetime.now())
     # Высчитываем процент выполнения KPI
     percent = []
     for x in accepted_kpis:
@@ -81,7 +83,8 @@ def assign_kpi(request, id_department):
     args['id_department'] = id_department
 
     # Получаем все AssignedKPI, назначенные выбранному структурному подразделению
-    args['department_set'] = AssignedKPI.objects.filter(department=args['department'], assigner=request.user)
+    args['department_set'] = AssignedKPI.objects.filter(department=args['department'], assigner=request.user,
+                                                        deadline__gt=datetime.now())
 
     # Высчитываем процент выполнения KPI
     percent = []
@@ -105,7 +108,11 @@ def assign_kpi(request, id_department):
                 args['creation_form'] = KPICreationForm()
                 return render(request,'app/assign_kpi.html', args)
         if form.is_valid():
-            form.save()
+            assigned_kpi.deadline = form.cleaned_data.get('deadline')
+            assigned_kpi.amount = form.cleaned_data.get('amount')
+            assigned_kpi.comment = form.cleaned_data.get('comment')
+            assigned_kpi.kpi = form.cleaned_data.get('kpi')
+            assigned_kpi.check_kpi_unique()
             return redirect('main')
         else:
             args['form_error'] = "Данные введены неверно."
@@ -167,9 +174,13 @@ def report(request, id_assigned_kpi):
         return render(request, 'app/access_error.html', {'access_error': access_error})
     if request.method == "POST":
         form = KPIReportForm(request.POST)
-        if form.is_valid:
-            assigned_kpi.budget = request.POST.get('budget', '')
-            assigned_kpi.complete = request.POST.get('complete', '')
+        if form.is_valid():
+            assigned_kpi.budget = assigned_kpi.budget + form.cleaned_data.get('budget')
+            if assigned_kpi.budget > profile.department.budget.assigned_budget:
+                access_error = "Вы не можете превысить бюджет своего структурного подразделения."
+                return render(request, 'app/access_error.html', {'access_error': access_error})
+            assigned_kpi.complete = assigned_kpi.complete + form.cleaned_data.get('complete')
+            assigned_kpi.send_complete_to_superiors(form.cleaned_data.get('complete'))
             assigned_kpi.report = request.POST.get('report', '')
             assigned_kpi.save()
             return redirect('main')
@@ -199,8 +210,6 @@ def kpi(request, id_assigned_kpi):
         args['assigned_kpi'] = assigned_kpi
         args['percent'] = assigned_kpi.to_percent()
 
-        # args['access_flag'] = True
-
         comment = Comments(sender=request.user, kpi=assigned_kpi, datetime=datetime.now())
         args['comment_form'] = CommentCreationForm(instance=comment)
         args['comments_set'] = Comments.objects.filter(kpi=assigned_kpi)
@@ -228,8 +237,8 @@ def send_comment(request):
         return redirect('main')
 
 
-def redirectpage(requet):
-    if not requet.user.is_authenticated():
+def redirectpage(request):
+    if not request.user.is_authenticated():
         return redirect('/app/login/')
     else:
         return redirect('/app/main/')
@@ -260,10 +269,17 @@ def budget(request, id_department):
         form = BudgetForm(request.POST)
         args['form'] = BudgetForm(instance=budget)
         if form.is_valid():
-            form.save()
+            try:
+                bud=Budget.objects.get(department=department)
+            except Budget.DoesNotExist:
+                form.save()
+                return redirect('main')
+            bud.assigned_budget += form.cleaned_data.get('assigned_budget', '')
+            bud.save()
             return redirect('main')
         else:
             args['form_error'] = "Данные введены неверно."
             return render(request, 'app/budget.html', args)
+
     else:
         return render(request, 'app/budget.html', args)

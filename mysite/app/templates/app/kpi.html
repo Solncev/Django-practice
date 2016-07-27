@@ -25,11 +25,11 @@
 					data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
 				<i class="fa fa-chevron-down fa-2x" aria-hidden="true"></i> </button>
 		<ul class="dropdown-menu moved-menu" aria-labelledby="dropdownMenu1">
-			<li><a href="/app/personal_information/">Личная информация</a></li>
-			<li><a href="#" id="settings">Настройки</a></li>
-			<li role="separator" class="divider"></li>
-			<li><a href="/app/logout/">Выход</a></li>
-		</ul>
+            <li><a href="/app/personal_information/"><i class="fa fa-info-circle fa-lg" aria-hidden="true"></i> Личная информация</a></li>
+            <li><a href="#" id="settings"><i class="fa fa-cog fa-lg" aria-hidden="true"></i> Настройки</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="/app/logout/"><i class="fa fa-sign-out fa-lg" aria-hidden="true"></i> Выход</a></li>
+        </ul>
 		</div>
 		<h3 class="name1"><i class="fa fa-university" aria-hidden="true"></i> {{ profile.user.first_name }}
 			{{ profile.user.last_name  }} &nbsp </h3>
@@ -84,16 +84,16 @@
         <hr>
         <div class="kpi-info">
             {% for x in comments_set %}
-            <h4>{{ x.sender }}: </h4>
-                <p style="word-break: break-all">{{ x.text }}</p>
-                <h6>{{ x.datetime }}</h6>
+            <h4>{{ x.sender.first_name }} {{ x.sender.last_name }}: </h4>
+                <p style="word-break: break-all; color: #4d4c51">{{ x.text }}</p>
+                <h6 style="color: #818085">{{ x.datetime }}</h6>
                 <hr>
 
             {% endfor %}
             <form action="/app/kpi/send_comment/" method="post">
                 {% csrf_token %}
                 {{ comment_form }}
-                <button class="send-button" type="submit">Отправить</button>
+                <button id="sendbtn" class="send-button" type="submit">Отправить</button>
                 <span class="cancel-button" id="cancelbtn"> Отменить </span>
             </form>
         </div>
@@ -110,10 +110,10 @@
 
     $('#id_text').click(function () {
         $('#id_text').css('height', '80px');
-        var objDiv = document.getElementById("comments");
-        objDiv.scrollTop = objDiv.scrollHeight;
         $('.send-button').show();
         $('.cancel-button').show();
+        var objDiv = document.getElementById("comments");
+        objDiv.scrollTop = objDiv.scrollHeight;
     })
 
     $('#cancelbtn').click(function () {
@@ -142,6 +142,12 @@
             multiPercentage: 1,
             percentages: [10, 20, 30]
         });
+    });
+
+    $("#id_text").keyup(function(event){
+        if(event.keyCode == 13){
+            $("#sendbtn").click();
+        }
     });
 </script>
 </body>
